@@ -1,4 +1,6 @@
-<battle>
+<?xml version="1.0"?>
+<!DOCTYPE protocol SYSTEM "battle.dtd">
+<battle version="0.0.1">
 <sides>
 	<side id="mithro">
 		<entity id="battleship-54-1">
@@ -168,3 +170,4 @@
 		<log>Lee's fleet escapes.</log>
 	</round>
 </rounds>
+</battle>
