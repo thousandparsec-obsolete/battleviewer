@@ -34,6 +34,7 @@
 			<model>graphics/frigate/model.png</model>
 			<weapontype>laser2</weapontype>
 		</entity>
+	</side>
 </sides>
 <rounds>
 	<round no="1">
@@ -75,7 +76,7 @@
 			<destination>
 				<reference>battleship-54-1</reference>
 				<pixel>0,0</pixel>
-			</source>
+			</destination>
 		</fire>
 		<fire>
 			<source>
@@ -85,7 +86,7 @@
 			<destination>
 				<reference>battleship-54-2</reference>
 				<pixel>0,0</pixel>
-			</source>
+			</destination>
 		</fire>
 		<damage>
 			<reference>battleship-54-1</reference>
@@ -108,7 +109,7 @@
 			<destination>
 				<reference>battleship-59-1</reference>
 				<pixel>0,0</pixel>
-			</source>
+			</destination>
 		</fire>
 		<damage>
 			<reference>battleship-59-1</reference>
@@ -122,7 +123,7 @@
 			<destination>
 				<reference>battleship-59-1</reference>
 				<pixel>0,0</pixel>
-			</source>
+			</destination>
 		</fire>
 		<damage>
 			<reference>battleship-59-1</reference>
@@ -139,7 +140,7 @@
 			<destination>
 				<reference>frigate-59-3</reference>
 				<pixel>0,0</pixel>
-			</source>
+			</destination>
 		</fire>
 		<damage>
 			<reference>frigate-59-3</reference>
@@ -153,7 +154,7 @@
 			<destination>
 				<reference>frigate-59-3</reference>
 				<pixel>0,0</pixel>
-			</source>
+			</destination>
 		</fire>
 		<damage>
 			<reference>frigate-59-3</reference>
