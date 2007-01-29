@@ -10,9 +10,9 @@ class BattleView:
     battle_active = False
     entity_spritegroup = None
     
-    def __init__ (self, display_size):
+    def __init__ (self, display_size, display_depth):
         # Initialize the display
-        self.display_surface = pygame.display.set_mode(display_size, 0, 24)
+        self.display_surface = pygame.display.set_mode(display_size, 0, display_depth)
     
         # Create a background surface
         background_color = (0,0,0)
