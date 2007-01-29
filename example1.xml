@@ -5,34 +5,34 @@
 	<side id="mithro">
 		<entity id="battleship-54-1">
 			<name>Mithro's Super Fleet, Battleship 1</name>
-			<model>battleship/model.mng</model>
-			<death>battleship/death.mng</model>
+			<model>graphics/battleship/model.mng</model>
+			<weapontype>laser5</weapontype>
 		</entity>
 		<entity id="battleship-54-2">
 			<name>Mithro's Super Fleet, Battleship 2</name>
-			<model>battleship/model.mng</model>
-			<death>battleship/death.mng</model>
+			<model>graphics/battleship/model.mng</model>
+			<weapontype>laser5</weapontype>
 		</entity>
 		<entity id="planet-23">
 			<name>Mithro's Colony on Omega 1</name>
-			<model>planets/barren.mng</model>
+			<model>graphics/planet/model.mng</model>
+			<weapontype>laser5</weapontype>
 		</entity>
 	</side>
 	<side id="lee">
 		<entity id="scout-59-1">
 			<name>Lee's Super Fleet, Scout 1</name>
-			<model>scout/model.png</model>
-			<death>scout/death.mng</death>
+			<model>graphics/scout/model.png</model>
 		</entity>
 		<entity id="battleship-59-2">
 			<name>Lee's Super Fleet, Battleship 1</name>
-			<model>battleship/model.png</model>
-			<death>battleship/death.mng</death>
+			<model>graphics/battleship/model.png</model>
+			<weapontype>laser5</weapontype>
 		</entity>
 		<entity id="frigate-59-3">
 			<name>Lee's Super Fleet, Frigate 1</name>
-			<model>frigate/model.png</model>
-			<death>frigate/death.mng</death>
+			<model>graphics/frigate/model.png</model>
+			<weapontype>laser2</weapontype>
 		</entity>
 </sides>
 <rounds>
