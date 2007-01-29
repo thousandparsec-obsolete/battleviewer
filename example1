@@ -1,0 +1,170 @@
+<battle>
+<sides>
+	<side id="mithro">
+		<entity id="battleship-54-1">
+			<name>Mithro's Super Fleet, Battleship 1</name>
+			<model>battleship/model.mng</model>
+			<death>battleship/death.mng</model>
+		</entity>
+		<entity id="battleship-54-2">
+			<name>Mithro's Super Fleet, Battleship 2</name>
+			<model>battleship/model.mng</model>
+			<death>battleship/death.mng</model>
+		</entity>
+		<entity id="planet-23">
+			<name>Mithro's Colony on Omega 1</name>
+			<model>planets/barren.mng</model>
+		</entity>
+	</side>
+	<side id="lee">
+		<entity id="scout-59-1">
+			<name>Lee's Super Fleet, Scout 1</name>
+			<model>scout/model.png</model>
+			<death>scout/death.mng</death>
+		</entity>
+		<entity id="battleship-59-2">
+			<name>Lee's Super Fleet, Battleship 1</name>
+			<model>battleship/model.png</model>
+			<death>battleship/death.mng</death>
+		</entity>
+		<entity id="frigate-59-3">
+			<name>Lee's Super Fleet, Frigate 1</name>
+			<model>frigate/model.png</model>
+			<death>frigate/death.mng</death>
+		</entity>
+</sides>
+<rounds>
+	<round no="1">
+		<log>Battle between Lee's Super Fleet and Mithro's killer fleet started.</log>
+		<move>
+			<reference>battleship-54-1</reference>
+			<position>0,0</position>
+		</move>
+		<move>
+			<reference>battleship-54-2</reference>
+			<position>100,0</position>
+		</move>
+		<move>
+			<reference>planet-23</reference>
+			<position>200,0</position>
+		</move>
+		<move>
+			<reference>scout-59-1</reference>
+			<position>0, 400</position>
+		</move>
+		<move>
+			<reference>battleship-59-2</reference>
+			<position>100, 400</position>
+		</move>
+		<move>
+			<reference>frigate-59-3</reference>
+			<position>200, 400</position>
+		</move>
+	</round>
+	<round no="2">
+		<log>Lee's fleet chooses rock.</log>
+		<log>Mithro's fleet chooses paper.</log>
+		<log>Lee's fleet wins.</log>
+		<fire>
+			<source>
+				<reference>frigate-59-3</reference>
+				<pixel>0,0</pixel>
+			</source>
+			<destination>
+				<reference>battleship-54-1</reference>
+				<pixel>0,0</pixel>
+			</source>
+		</fire>
+		<fire>
+			<source>
+				<reference>battleship-59-2</reference>
+				<pixel>0,0</pixel>
+			</source>
+			<destination>
+				<reference>battleship-54-2</reference>
+				<pixel>0,0</pixel>
+			</source>
+		</fire>
+		<damage>
+			<reference>battleship-54-1</reference>
+			<amount>2</amount>
+		</damage>
+		<damage>
+			<reference>battleship-54-2</reference>
+			<amount>3</amount>
+		</damage>
+	</round>
+	<round no="3">
+		<log>Lee's fleet chooses rock.</log>
+		<log>Mithro's fleet chooses scissors.</log>
+		<log>Mithro's fleet wins.</log>
+		<fire>
+			<source>
+				<reference>battleship-54-1</reference>
+				<pixel>0,0</pixel>
+			</source>
+			<destination>
+				<reference>battleship-59-1</reference>
+				<pixel>0,0</pixel>
+			</source>
+		</fire>
+		<damage>
+			<reference>battleship-59-1</reference>
+			<amount>3</amount>
+		</damage>
+		<fire>
+			<source>
+				<reference>battleship-54-2</reference>
+				<pixel>0,0</pixel>
+			</source>
+			<destination>
+				<reference>battleship-59-1</reference>
+				<pixel>0,0</pixel>
+			</source>
+		</fire>
+		<damage>
+			<reference>battleship-59-1</reference>
+			<amount>3</amount>
+		</damage>
+		<death>
+			<reference>battleship-59-1</reference>
+		</death>
+		<fire>
+			<source>
+				<reference>planet-23</reference>
+				<pixel>0,0</pixel>
+			</source>
+			<destination>
+				<reference>frigate-59-3</reference>
+				<pixel>0,0</pixel>
+			</source>
+		</fire>
+		<damage>
+			<reference>frigate-59-3</reference>
+			<amount>3</amount>
+		</damage>
+		<fire>
+			<source>
+				<reference>planet-23</reference>
+				<pixel>0,0</pixel>
+			</source>
+			<destination>
+				<reference>frigate-59-3</reference>
+				<pixel>0,0</pixel>
+			</source>
+		</fire>
+		<damage>
+			<reference>frigate-59-3</reference>
+			<amount>3</amount>
+		</damage>
+		<death>
+			<reference>frigate-59-3</reference>
+		</death>
+	</round>
+	<round id="4">
+		<log>Lee's fleet chooses paper.</log>
+		<log>Mithro's fleet chooses rock.</log>
+		<log>Lee's fleet wins.</log>
+		<log>Lee's fleet escapes.</log>
+	</round>
+</rounds>

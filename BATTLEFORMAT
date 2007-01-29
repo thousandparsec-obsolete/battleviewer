@@ -1,0 +1,183 @@
+Thousand Parsec Battle Data Format Specification 0.0.1.
+-----------------------------
+
+The Battle Data is a simple XML file designed to be parsed using a SAX type parser.
+
+First the file lists all the sides and the "Entities" on each side.
+Each entity must have a unique id. Recommended format is <type>-<id>-<index>.
+Then the information for each object. 
+An object is required to have:
+ name        - Display name for the object
+ model       - URL of a mng (for animation) or png (for static) picture which is displayed.
+Optional:
+ description - Description of the object
+ death       - URL of an explosion or death animation
+ firing      - URL of the object "firing"
+ weapontype  - A choice of the possible weapon types - Laser[1-9], Missile, Torpedo, has no effect on game, only how the weapon fire is drawn.
+ weapon      - A graphic for the Missile or Torpedo (no graphics for Laser)
+
+
+<sides>
+	<side id="mithro">
+		<entity id="battleship-54-1">
+			<name>Mithro's Super Fleet, Battleship 1</name>
+			<model>battleship/model.mng</model>
+			<death>battleship/death.mng</model>
+		</entity>
+		<entity id="battleship-54-2">
+			<name>Mithro's Super Fleet, Battleship 2</name>
+			<model>battleship/model.mng</model>
+			<death>battleship/death.mng</model>
+		</entity>
+		<entity id="planet-23">
+			<name>Mithro's Colony on Omega 1</name>
+			<model>planets/barren.mng</model>
+		</entity>
+	</side>
+</sides>
+
+Then each round is listed off. 
+There are the following commands which can be used,
+ log("message")                   - Prints a message 
+ death(objectid)                  - Object plays death animation and then is removed from the board
+ move(objectid, position)         - Object moves to a certain location.
+ fire(source objectid, origin, dest objectid, position )
+                                  - Object plays fire animation. (Origin is pixel position the shot should appear to come from, position is the pixel position where the shot should be placed - relative to top-left of the graphic.)
+ damage(objectid, number)         - Amount of damage done to an object
+All commands occur at once.
+
+<rounds>
+	<round no="1">
+		<log>Battle between Lee's Super Fleet and Mithro's killer fleet started.</log>
+		<move>
+			<reference>battleship-54-1</reference>
+			<position>0,0</position>
+		</move>
+		<move>
+			<reference>battleship-54-2</reference>
+			<position>100,0</position>
+		</move>
+		<move>
+			<reference>planet-23</reference>
+			<position>200,0</position>
+		</move>
+		<move>
+			<reference>scout-59-1</reference>
+			<position>0, 400</position>
+		</move>
+		<move>
+			<reference>battleship-59-2</reference>
+			<position>100, 400</position>
+		</move>
+		<move>
+			<reference>frigate-59-3</reference>
+			<position>200, 400</position>
+		</move>
+	</round>
+	<round no="2">
+		<log>Lee's fleet chooses rock.</log>
+		<log>Mithro's fleet chooses paper.</log>
+		<log>Lee's fleet wins.</log>
+		<fire>
+			<source>
+				<reference>frigate-59-3</reference>
+				<pixel>0,0</pixel>
+			</source>
+			<destination>
+				<reference>battleship-54-1</reference>
+				<pixel>0,0</pixel>
+			</source>
+		</fire>
+		<fire>
+			<source>
+				<reference>battleship-59-2</reference>
+				<pixel>0,0</pixel>
+			</source>
+			<destination>
+				<reference>battleship-54-2</reference>
+				<pixel>0,0</pixel>
+			</source>
+		</fire>
+		<damage>
+			<reference>battleship-54-1</reference>
+			<amount>2</amount>
+		</damage>
+		<damage>
+			<reference>battleship-54-2</reference>
+			<amount>3</amount>
+		</damage>
+	</round>
+	<round no="3">
+		<log>Lee's fleet chooses rock.</log>
+		<log>Mithro's fleet chooses scissors.</log>
+		<log>Mithro's fleet wins.</log>
+		<fire>
+			<source>
+				<reference>battleship-54-1</reference>
+				<pixel>0,0</pixel>
+			</source>
+			<destination>
+				<reference>battleship-59-1</reference>
+				<pixel>0,0</pixel>
+			</source>
+		</fire>
+		<damage>
+			<reference>battleship-59-1</reference>
+			<amount>3</amount>
+		</damage>
+		<fire>
+			<source>
+				<reference>battleship-54-2</reference>
+				<pixel>0,0</pixel>
+			</source>
+			<destination>
+				<reference>battleship-59-1</reference>
+				<pixel>0,0</pixel>
+			</source>
+		</fire>
+		<damage>
+			<reference>battleship-59-1</reference>
+			<amount>3</amount>
+		</damage>
+		<death>
+			<reference>battleship-59-1</reference>
+		</death>
+		<fire>
+			<source>
+				<reference>planet-23</reference>
+				<pixel>0,0</pixel>
+			</source>
+			<destination>
+				<reference>frigate-59-3</reference>
+				<pixel>0,0</pixel>
+			</source>
+		</fire>
+		<damage>
+			<reference>frigate-59-3</reference>
+			<amount>3</amount>
+		</damage>
+		<fire>
+			<source>
+				<reference>planet-23</reference>
+				<pixel>0,0</pixel>
+			</source>
+			<destination>
+				<reference>frigate-59-3</reference>
+				<pixel>0,0</pixel>
+			</source>
+		</fire>
+		<damage>
+			<reference>frigate-59-3</reference>
+			<amount>3</amount>
+		</damage>
+		<death>
+			<reference>frigate-59-3</reference>
+		</death>
+	</round>
+	<round id="4">
+		<log>Lee's fleet chooses paper.</log>
+		<log>Mithro's fleet chooses rock.</log>
+		<log>Lee's fleet wins.</log>
+		<log>Lee's fleet escapes.</log>
+	</round>
+</rounds>
