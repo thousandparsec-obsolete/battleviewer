@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE protocol SYSTEM "battle.dtd">
+<!DOCTYPE battle SYSTEM "battle.dtd">
 <battle version="0.0.1">
 <sides>
 	<side id="mithro">
@@ -37,134 +37,134 @@
 	</side>
 </sides>
 <rounds>
-	<round no="1">
+	<round number="1">
 		<log>Battle between Lee's Super Fleet and Mithro's killer fleet started.</log>
 		<move>
-			<reference>battleship-54-1</reference>
+			<reference ref="battleship-54-1" />
 			<position>0,0</position>
 		</move>
 		<move>
-			<reference>battleship-54-2</reference>
+			<reference ref="battleship-54-2" />
 			<position>100,0</position>
 		</move>
 		<move>
-			<reference>planet-23</reference>
+			<reference ref="planet-23" />
 			<position>200,0</position>
 		</move>
 		<move>
-			<reference>scout-59-1</reference>
+			<reference ref="scout-59-1" />
 			<position>0, 400</position>
 		</move>
 		<move>
-			<reference>battleship-59-2</reference>
+			<reference ref="battleship-59-2" />
 			<position>100, 400</position>
 		</move>
 		<move>
-			<reference>frigate-59-3</reference>
+			<reference ref="frigate-59-3" />
 			<position>200, 400</position>
 		</move>
 	</round>
-	<round no="2">
+	<round number="2">
 		<log>Lee's fleet chooses rock.</log>
 		<log>Mithro's fleet chooses paper.</log>
 		<log>Lee's fleet wins.</log>
 		<fire>
 			<source>
-				<reference>frigate-59-3</reference>
+				<reference ref="frigate-59-3" />
 				<pixel>0,0</pixel>
 			</source>
 			<destination>
-				<reference>battleship-54-1</reference>
+				<reference ref="battleship-54-1" />
 				<pixel>0,0</pixel>
 			</destination>
 		</fire>
 		<fire>
 			<source>
-				<reference>battleship-59-2</reference>
+				<reference ref="battleship-59-2" />
 				<pixel>0,0</pixel>
 			</source>
 			<destination>
-				<reference>battleship-54-2</reference>
+				<reference ref="battleship-54-2" />
 				<pixel>0,0</pixel>
 			</destination>
 		</fire>
 		<damage>
-			<reference>battleship-54-1</reference>
+			<reference ref="battleship-54-1" />
 			<amount>2</amount>
 		</damage>
 		<damage>
-			<reference>battleship-54-2</reference>
+			<reference ref="battleship-54-2" />
 			<amount>3</amount>
 		</damage>
 	</round>
-	<round no="3">
+	<round number="3">
 		<log>Lee's fleet chooses rock.</log>
 		<log>Mithro's fleet chooses scissors.</log>
 		<log>Mithro's fleet wins.</log>
 		<fire>
 			<source>
-				<reference>battleship-54-1</reference>
+				<reference ref="battleship-54-1" />
 				<pixel>0,0</pixel>
 			</source>
 			<destination>
-				<reference>battleship-59-1</reference>
+				<reference ref="battleship-59-2" />
 				<pixel>0,0</pixel>
 			</destination>
 		</fire>
 		<damage>
-			<reference>battleship-59-1</reference>
+			<reference ref="battleship-59-2" />
 			<amount>3</amount>
 		</damage>
 		<fire>
 			<source>
-				<reference>battleship-54-2</reference>
+				<reference ref="battleship-54-2" />
 				<pixel>0,0</pixel>
 			</source>
 			<destination>
-				<reference>battleship-59-1</reference>
+				<reference ref="battleship-59-2" />
 				<pixel>0,0</pixel>
 			</destination>
 		</fire>
 		<damage>
-			<reference>battleship-59-1</reference>
+			<reference ref="battleship-59-2" />
 			<amount>3</amount>
 		</damage>
 		<death>
-			<reference>battleship-59-1</reference>
+			<reference ref="battleship-59-2" />
 		</death>
 		<fire>
 			<source>
-				<reference>planet-23</reference>
+				<reference ref="planet-23" />
 				<pixel>0,0</pixel>
 			</source>
 			<destination>
-				<reference>frigate-59-3</reference>
+				<reference ref="frigate-59-3" />
 				<pixel>0,0</pixel>
 			</destination>
 		</fire>
 		<damage>
-			<reference>frigate-59-3</reference>
+			<reference ref="frigate-59-3" />
 			<amount>3</amount>
 		</damage>
 		<fire>
 			<source>
-				<reference>planet-23</reference>
+				<reference ref="planet-23" />
 				<pixel>0,0</pixel>
 			</source>
 			<destination>
-				<reference>frigate-59-3</reference>
+				<reference ref="frigate-59-3" />
 				<pixel>0,0</pixel>
 			</destination>
 		</fire>
 		<damage>
-			<reference>frigate-59-3</reference>
+			<reference ref="frigate-59-3" />
 			<amount>3</amount>
 		</damage>
 		<death>
-			<reference>frigate-59-3</reference>
+			<reference ref="frigate-59-3" />
 		</death>
 	</round>
-	<round id="4">
+	<round number="4">
 		<log>Lee's fleet chooses paper.</log>
 		<log>Mithro's fleet chooses rock.</log>
 		<log>Lee's fleet wins.</log>
