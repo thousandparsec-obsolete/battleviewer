@@ -10,7 +10,7 @@ class Log (Action):
 class Move (Action):
     id = None
     position = None
-    def __init__(self, id, position):
+    def __init__ (self, id, position):
         self.id = id
         self.position = position
 

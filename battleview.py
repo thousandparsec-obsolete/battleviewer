@@ -1,4 +1,4 @@
-import pygame, actions, weapons, entitys
+import pygame, actions, weapons, entities
 
 class BattleView:
     # Reference to the pygame display surface
@@ -8,15 +8,15 @@ class BattleView:
     round = 0
     round_list = None
     battle_active = False
-    entity_spritegroup = None
+    spritegroup = None
     
-    def __init__ (self, display_size, display_depth):
+    def __init__ (self, display_surface):
         # Initialize the display
-        self.display_surface = pygame.display.set_mode(display_size, 0, display_depth)
+        self.display_surface = display_surface
     
         # Create a background surface
         background_color = (0,0,0)
-        self.background_surface = pygame.surface.Surface(display_size)
+        self.background_surface = pygame.surface.Surface((self.display_surface.get_width(), self.display_surface.get_height()))
         self.background_surface.fill(background_color)
         
         # Blit the background surface to the display surface
@@ -25,11 +25,11 @@ class BattleView:
         # Update the whole display
         pygame.display.flip()
         
-        # List to contain battle entities
+        # List to contain id's of battle entities, this will ensure no double-registering
         self.entity_list = {}
     
         # Sprite group for drawing all entities
-        self.entity_spritegroup = pygame.sprite.RenderUpdates()
+        self.spritegroup = pygame.sprite.OrderedUpdates()
         
         # Store the current round
         self.round = 0
@@ -64,12 +64,20 @@ class BattleView:
             # I know isinstance is evil, but it's so useful
             if isinstance(action, actions.Log):
                 self.log_message(action.message)
-            if isinstance(action, actions.Move):
+            elif isinstance(action, actions.Move):
                 if self.entity_list.has_key(action.id):
                     self.entity_list[action.id].move(action.position)
                 else:
                     print 'Entity ID',action.id,'not in entity list.'
-        
+            elif isinstance(action, actions.Fire):
+                source_position = self.entity_list[action.source_id].get_position()
+                destination_position = self.entity_list[action.destination_id].get_position()
+                if isinstance(self.entity_list[action.source_id].weapon, weapons.BasicLaser):
+                    # laser weapon
+                    weapon = entities.LaserBlast(self.entity_list[action.source_id].weapon, source_position, destination_position)
+                    self.spritegroup.add(weapon)
+                else:
+                    print 'Warning Unknown weapon', self.entity_list[action.source_id], self.entity_list[action.source_id].weapon
         # Incriment the round
         self.round += 1
         
@@ -83,25 +91,24 @@ class BattleView:
         # Round completed flag
         complete = True
         
-        #~ # Update all entities
-        for entity in self.entity_list.itervalues():
+        #~ # Update all sprites - we manually do this so we can determin if all sprites are idle
+        for sprite in self.spritegroup:
             # Tell the entity to update
-            entity.update()
-            if not entity.is_idle():
+            sprite.update()
+            if not sprite.is_idle():
                 complete = False
         
         # Redraw sprites
-        rectlist = self.entity_spritegroup.draw(self.display_surface)
+        rectlist = self.spritegroup.draw(self.display_surface)
         pygame.display.update(rectlist)
-        self.entity_spritegroup.clear(self.display_surface, self.background_surface)
+        self.spritegroup.clear(self.display_surface, self.background_surface)
         
         if complete:
-            print "round complete"
             self.next_round()
             
     def append_entity (self, side, id, name='', model=None, weapon_label=None):
         weapon = weapons.new_weapon(weapon_label)
         if not self.entity_list.has_key(id):
-            entity = entitys.BasicEntity(side, id, name, model, weapon)
+            entity = entities.BasicEntity(side, id, name, model, weapon)
             self.entity_list[id] = entity
-            self.entity_spritegroup.add(entity)
+            self.spritegroup.add(entity)
