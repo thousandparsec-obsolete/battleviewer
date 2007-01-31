@@ -98,6 +98,8 @@ class Parser(object):
 		"""
 		def __init__(self, data=""):
 			self.data = data
+		def __repr__(self):
+			return "<Log '%s'>" % (self.data,)
 
 	class Death(Action):
 		"""\
@@ -108,6 +110,9 @@ class Parser(object):
 		def __init__(self, ref):
 			self.reference = ref
 
+		def __repr__(self):
+			return "<Death '%s'>" % (self.reference,)
+
 	class Move(Action):
 		"""\
 		Causes an reference to change location on the board.
@@ -116,7 +121,13 @@ class Parser(object):
 		"""
 		def __init__(self, ref, position):
 			self.reference = ref
-			self.position = position
+
+			self.position = []
+			for i in position.split(','):
+				self.position.append(int(i))
+
+		def __repr__(self):
+			return "<Move %s %s>" % (self.reference, self.position)
 
 	class Fire(Action):
 		"""\
@@ -134,6 +145,10 @@ class Parser(object):
 			self.source = source[0]
 			self.destination = destination[0]
 
+		def __repr__(self):
+			return "<Fire %s %s>" % (self.source, self.destination)
+
+
 	class Damage(Action):
 		"""\
 		Causes an reference to take damage.
@@ -147,11 +162,18 @@ class Parser(object):
 			self.reference = ref
 			self.amount = amount
 
+		def __repr__(self):
+			return "<Damage '%s' %s>" % (self.reference, self.amount)
+
 	class Source(object):
 		group="source"
 		def __init__(self, ref, pixel):
 			self.reference = ref
-			self.pixel = pixel
+
+			self.pixel = []
+			for i in pixel.split(','):
+				self.pixel.append(int(i))
+
 		def __repr__(self):
 			return "<%s %s %s>" % (self.__class__.__name__, self.reference, self.pixel)
 
@@ -238,4 +260,8 @@ if __name__ == "__main__":
 	parser = Parser.CreateParser()
 	print parser
 	parser.ParseFile(file("example1.xml", "r"))
-	print parser.objects
+
+	battle = parser.objects
+	for round in battle.rounds:
+		print round
+
