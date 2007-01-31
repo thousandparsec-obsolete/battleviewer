@@ -45,11 +45,11 @@
 		</move>
 		<move>
 			<reference ref="battleship-54-2" />
-			<position>100,0</position>
+			<position>128,0</position>
 		</move>
 		<move>
 			<reference ref="planet-23" />
-			<position>200,0</position>
+			<position>256,0</position>
 		</move>
 		<move>
 			<reference ref="scout-59-1" />
@@ -57,11 +57,11 @@
 		</move>
 		<move>
 			<reference ref="battleship-59-2" />
-			<position>100, 400</position>
+			<position>128, 400</position>
 		</move>
 		<move>
 			<reference ref="frigate-59-3" />
-			<position>200, 400</position>
+			<position>256, 400</position>
 		</move>
 	</round>
 	<round number="2">
