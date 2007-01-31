@@ -10,10 +10,13 @@ def main ():
     # Desired delay between frame redraws (25 fps target framerate)
     frame_delay = 1000/25
     
-    # Create our battle view instance
-    display_size = (400,600)
+    # Create the display
+    display_size = (340,540)
     display_depth = 24
-    battle_view = battleview.BattleView(display_size, display_depth)
+    display_surface = pygame.display.set_mode(display_size, 0, display_depth)
+    
+    # Create our battle view instance
+    battle_view = battleview.BattleView(display_surface)
     
     # Combat Entities
     
@@ -38,6 +41,19 @@ def main ():
     round.append(actions.Move('scout-59-1', (0,400)))
     round.append(actions.Move('battleship-59-2', (100,400)))
     round.append(actions.Move('frigate-59-3', (200, 400)))
+    
+    # Add the round to the battle view
+    battle_view.append_round(round)
+    
+    # Round 2
+    round = []
+    round.append(actions.Log("Lee's fleet chooses rock."))
+    round.append(actions.Log("Mithro's fleet chooses paper."))
+    round.append(actions.Log("Lee's fleet wins."))
+    round.append(actions.Fire('frigate-59-3', (0,0), 'battleship-54-1', (0,0)))
+    round.append(actions.Fire('battleship-59-2', (0,0), 'battleship-54-2', (0,0)))
+    round.append(actions.Damage('battleship-59-1', 2))
+    round.append(actions.Damage('battleship-54-2', 3))
     
     # Add the round to the battle view
     battle_view.append_round(round)
