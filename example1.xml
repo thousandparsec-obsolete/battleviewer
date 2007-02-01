@@ -50,11 +50,11 @@
 		<entity id="frigate-59-3">
 			<name>Lee's Super Fleet, Frigate 1</name>
 			<model>graphics/frigate/model.png</model>
-			<weapontype>laser2</weapontype>
 			<weaponpoints>
 				<pixel>0,10</pixel>
 				<pixel>0,20</pixel>
 			</weaponpoints>
+			<weapontype>laser2</weapontype>
 		</entity>
 	</side>
 </sides>
