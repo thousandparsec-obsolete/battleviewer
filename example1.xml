@@ -6,16 +6,30 @@
 		<entity id="battleship-54-1">
 			<name>Mithro's Super Fleet, Battleship 1</name>
 			<model>graphics/battleship/model.mng</model>
+			<weaponpoints>
+				<pixel>10,0</pixel>
+				<pixel>-10,0</pixel>
+			</weaponpoints>
 			<weapontype>laser5</weapontype>
 		</entity>
 		<entity id="battleship-54-2">
 			<name>Mithro's Super Fleet, Battleship 2</name>
 			<model>graphics/battleship/model.mng</model>
+			<weaponpoints>
+				<pixel>10,0</pixel>
+				<pixel>-10,0</pixel>
+			</weaponpoints>
 			<weapontype>laser5</weapontype>
 		</entity>
 		<entity id="planet-23">
 			<name>Mithro's Colony on Omega 1</name>
 			<model>graphics/planet/model.mng</model>
+			<weaponpoints>
+				<pixel>30,0</pixel>
+				<pixel>-30,0</pixel>
+				<pixel>0,30</pixel>
+				<pixel>0,-30</pixel>
+			</weaponpoints>
 			<weapontype>laser5</weapontype>
 		</entity>
 	</side>
@@ -27,12 +41,20 @@
 		<entity id="battleship-59-2">
 			<name>Lee's Super Fleet, Battleship 1</name>
 			<model>graphics/battleship/model.png</model>
+			<weaponpoints>
+				<pixel>10,0</pixel>
+				<pixel>-10,0</pixel>
+			</weaponpoints>
 			<weapontype>laser5</weapontype>
 		</entity>
 		<entity id="frigate-59-3">
 			<name>Lee's Super Fleet, Frigate 1</name>
 			<model>graphics/frigate/model.png</model>
 			<weapontype>laser2</weapontype>
+			<weaponpoints>
+				<pixel>0,10</pixel>
+				<pixel>0,20</pixel>
+			</weaponpoints>
 		</entity>
 	</side>
 </sides>
@@ -69,24 +91,12 @@
 		<log>Mithro's fleet chooses paper.</log>
 		<log>Lee's fleet wins.</log>
 		<fire>
-			<source>
-				<reference ref="frigate-59-3" />
-				<pixel>0,0</pixel>
-			</source>
-			<destination>
-				<reference ref="battleship-54-1" />
-				<pixel>0,0</pixel>
-			</destination>
+			<source      ref="frigate-59-3" />
+			<destination ref="battleship-54-1" />
 		</fire>
 		<fire>
-			<source>
-				<reference ref="battleship-59-2" />
-				<pixel>0,0</pixel>
-			</source>
-			<destination>
-				<reference ref="battleship-54-2" />
-				<pixel>0,0</pixel>
-			</destination>
+			<source      ref="battleship-59-2" />
+			<destination ref="battleship-54-2" />
 		</fire>
 		<damage>
 			<reference ref="battleship-54-1" />
@@ -102,28 +112,16 @@
 		<log>Mithro's fleet chooses scissors.</log>
 		<log>Mithro's fleet wins.</log>
 		<fire>
-			<source>
-				<reference ref="battleship-54-1" />
-				<pixel>0,0</pixel>
-			</source>
-			<destination>
-				<reference ref="battleship-59-2" />
-				<pixel>0,0</pixel>
-			</destination>
+			<source      ref="battleship-54-1" />
+			<destination ref="battleship-59-2" />
 		</fire>
 		<damage>
 			<reference ref="battleship-59-2" />
 			<amount>3</amount>
 		</damage>
 		<fire>
-			<source>
-				<reference ref="battleship-54-2" />
-				<pixel>0,0</pixel>
-			</source>
-			<destination>
-				<reference ref="battleship-59-2" />
-				<pixel>0,0</pixel>
-			</destination>
+			<source      ref="battleship-54-2" />
+			<destination ref="battleship-59-2" />
 		</fire>
 		<damage>
 			<reference ref="battleship-59-2" />
@@ -133,28 +131,16 @@
 			<reference ref="battleship-59-2" />
 		</death>
 		<fire>
-			<source>
-				<reference ref="planet-23" />
-				<pixel>0,0</pixel>
-			</source>
-			<destination>
-				<reference ref="frigate-59-3" />
-				<pixel>0,0</pixel>
-			</destination>
+			<source      ref="planet-23" />
+			<destination ref="frigate-59-3" />
 		</fire>
 		<damage>
 			<reference ref="frigate-59-3" />
 			<amount>3</amount>
 		</damage>
 		<fire>
-			<source>
-				<reference ref="planet-23" />
-				<pixel>0,0</pixel>
-			</source>
-			<destination>
-				<reference ref="frigate-59-3" />
-				<pixel>0,0</pixel>
-			</destination>
+			<source      ref="planet-23" />
+			<destination ref="frigate-59-3" />
 		</fire>
 		<damage>
 			<reference ref="frigate-59-3" />

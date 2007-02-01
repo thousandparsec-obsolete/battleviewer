@@ -50,6 +50,7 @@ class Parser(object):
 		group="entities"
 		def __init__(self, id=None, name=None, model=None, \
 				description="", 
+				weaponpoints=[],
 				death=None,
 				firing=None,
 				weapontype=None,
@@ -61,6 +62,7 @@ class Parser(object):
 			self.name = name
 			self.model = model
 			self.description = description
+			self.weaponpoints = weaponpoints
 			self.death = death
 			self.firing = firing
 			self.weapontype = weapontype
@@ -68,6 +70,25 @@ class Parser(object):
 		def __repr__(self):
 			return "<Entity %s - '%s'>" % (self.id, self.name)
 		__str__ = __repr__
+
+	class Weaponpoints(list):
+		group="weaponpoints"
+		def __init__(self, pixels):
+			print pixels
+			for pixel in pixels:
+				self.append(pixel)
+
+		def __repr__(self):
+			return "<WeaponPoints %s>" % (list.__repr__(self))
+
+	class Pixel(list):
+		group="pixels"
+		def __init__(self, data):
+			for i in data.split(','):
+				self.append(int(i))
+
+		def __repr__(self):
+			return "<Pixel %s>" % list.__repr__(self)
 
 	class Rounds(list):
 		group="rounds"
@@ -167,15 +188,11 @@ class Parser(object):
 
 	class Source(object):
 		group="source"
-		def __init__(self, ref, pixel):
+		def __init__(self, ref):
 			self.reference = ref
 
-			self.pixel = []
-			for i in pixel.split(','):
-				self.pixel.append(int(i))
-
 		def __repr__(self):
-			return "<%s %s %s>" % (self.__class__.__name__, self.reference, self.pixel)
+			return "<%s %s>" % (self.__class__.__name__, self.reference)
 
 	class Destination(Source):
 		group="destination"
@@ -262,6 +279,11 @@ if __name__ == "__main__":
 	parser.ParseFile(file("example1.xml", "r"))
 
 	battle = parser.objects
+	for side in battle.sides.keys():
+		print side
+		for name, entity in battle.sides[side].items():
+			print entity, entity.weaponpoints
 	for round in battle.rounds:
 		print round
+
 

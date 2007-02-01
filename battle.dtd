@@ -13,6 +13,8 @@
 <!ELEMENT deathmedia (#PCDATA) >
 <!ELEMENT firing (#PCDATA) >
 <!ELEMENT weapontype (#PCDATA) >
+<!ELEMENT weaponpoints (pixel)>
+	<!ELEMENT pixel (#PCDATA) >
 <!ELEMENT weapon (#PCDATA) >
 <!ELEMENT note (#PCDATA) >
 
@@ -32,7 +34,6 @@
 <!ELEMENT reference EMPTY >
 <!ATTLIST reference ref IDREF #REQUIRED >
 <!ELEMENT position (#PCDATA) >
-<!ELEMENT source (reference, pixel) >
-<!ELEMENT destination (reference, pixel) >
-<!ELEMENT pixel (#PCDATA) >
+<!ATTLIST source ref IDREF #REQUIRED >
+<!ATTLIST destination ref IDREF #REQUIRED >
 <!ELEMENT amount (#PCDATA) >
