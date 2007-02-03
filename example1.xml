@@ -5,7 +5,7 @@
 	<side id="mithro">
 		<entity id="battleship-54-1">
 			<name>Mithro's Super Fleet, Battleship 1</name>
-			<model>graphics/battleship/model.mng</model>
+			<model>graphics/battleship/model.png</model>
 			<weaponpoints>
 				<pixel>10,0</pixel>
 				<pixel>-10,0</pixel>
@@ -14,7 +14,7 @@
 		</entity>
 		<entity id="battleship-54-2">
 			<name>Mithro's Super Fleet, Battleship 2</name>
-			<model>graphics/battleship/model.mng</model>
+			<model>graphics/battleship/model.png</model>
 			<weaponpoints>
 				<pixel>10,0</pixel>
 				<pixel>-10,0</pixel>
@@ -23,7 +23,7 @@
 		</entity>
 		<entity id="planet-23">
 			<name>Mithro's Colony on Omega 1</name>
-			<model>graphics/planet/model.mng</model>
+			<model>graphics/planet/model.png</model>
 			<weaponpoints>
 				<pixel>30,0</pixel>
 				<pixel>-30,0</pixel>
