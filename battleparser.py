@@ -286,4 +286,3 @@ if __name__ == "__main__":
 	for round in battle.rounds:
 		print round
 
-

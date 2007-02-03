@@ -1,5 +1,5 @@
-import pygame, battleview, actions
-    
+import pygame, battleview, actions, battleparser
+
 def main ():
     # Initialize pygame
     pygame.display.init()
@@ -11,52 +11,43 @@ def main ():
     frame_delay = 1000/25
     
     # Create the display
-    display_size = (340,540)
+    display_padding = 12
+    display_size = (display_padding*2 + 128*3, display_padding*2 + 400+128)
     display_depth = 24
     display_surface = pygame.display.set_mode(display_size, 0, display_depth)
     
     # Create our battle view instance
     battle_view = battleview.BattleView(display_surface)
     
-    # Combat Entities
+    battle_parser = battleparser.Parser.CreateParser()
+    battle_parser.ParseFile(file("example1.xml", "r"))
+
+    battle = battle_parser.objects
     
-    # Mithro
-    battle_view.append_entity('mithro', 'battleship-54-1', "Mithro's Super Fleet, Battleship 1",  'graphics/battleship/model.png', 'laser5')
-    battle_view.append_entity('mithro', 'battleship-54-2', "Mithro's Super Fleet, Battleship 2",  'graphics/battleship/model.png', 'laser5')
-    battle_view.append_entity('mithro', 'planet-23', "Mithro's Colony on Omega 1",  'graphics/planet/model.png', 'laser5')
-    
-    # Lee
-    battle_view.append_entity('lee', 'scout-59-1', "Lee's Super Fleet, Scout 1",  'graphics/scout/model.png')
-    battle_view.append_entity('lee', 'battleship-59-2', "Mithro's Super Fleet, Battleship 2",  'graphics/battleship/model.png', 'laser5')
-    battle_view.append_entity('lee', 'frigate-59-3', "Lee's Super Fleet, Frigate 1",  'graphics/frigate/model.png', 'laser2')
-    
+    # Combat entities
+    for side in battle.sides:
+        for entity in battle.sides[side].itervalues():
+            battle_view.append_entity(side, entity.id, entity.name, entity.model, entity.weapontype)
+
     # Combat Script
-    
-    # Round 1
-    round = []
-    round.append(actions.Log("Battle between Lee's Super Fleet and Mithro's killer fleet started."))
-    round.append(actions.Move('battleship-54-1', (0,0)))
-    round.append(actions.Move('battleship-54-2', (100,0)))
-    round.append(actions.Move('planet-23', (200,0)))
-    round.append(actions.Move('scout-59-1', (0,400)))
-    round.append(actions.Move('battleship-59-2', (100,400)))
-    round.append(actions.Move('frigate-59-3', (200, 400)))
-    
-    # Add the round to the battle view
-    battle_view.append_round(round)
-    
-    # Round 2
-    round = []
-    round.append(actions.Log("Lee's fleet chooses rock."))
-    round.append(actions.Log("Mithro's fleet chooses paper."))
-    round.append(actions.Log("Lee's fleet wins."))
-    round.append(actions.Fire('frigate-59-3', (0,0), 'battleship-54-1', (0,0)))
-    round.append(actions.Fire('battleship-59-2', (0,0), 'battleship-54-2', (0,0)))
-    round.append(actions.Damage('battleship-59-1', 2))
-    round.append(actions.Damage('battleship-54-2', 3))
-    
-    # Add the round to the battle view
-    battle_view.append_round(round)
+    for round in battle.rounds:
+        current_round = []
+        for action in round.actions:
+            # determin what kind of action it is
+            if isinstance(action, battleparser.Parser.Log):
+                current_round.append(actions.Log(action.data))
+            elif isinstance(action, battleparser.Parser.Move):
+                # adding the padding here to the position isn't the nicest idea.  all sprites should probably be rewritten to support nesting like UI widgets.
+                current_round.append(actions.Move(action.reference, (action.position[0] + display_padding, action.position[1] + display_padding)))
+            elif isinstance(action, battleparser.Parser.Fire):
+                current_round.append(actions.Fire(action.source.reference, action.destination.reference))
+            elif isinstance(action, battleparser.Parser.Damage):
+                current_round.append(actions.Damage(action.reference, action.amount))
+            elif isinstance(action, battleparser.Parser.Death):
+                current_round.append(actions.Death(action.reference))
+            else:
+                print 'Unknown action', action
+        battle_view.append_round(round.number, current_round)
     
     # Start the battle
     battle_view.start_battle()

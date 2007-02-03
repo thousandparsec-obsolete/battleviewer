@@ -8,28 +8,30 @@ class Log (Action):
         self.message = message
         
 class Move (Action):
-    id = None
+    reference = None
     position = None
-    def __init__ (self, id, position):
-        self.id = id
+    def __init__ (self, reference, position):
+        self.reference = reference
         self.position = position
 
 class Fire (Action):
-    source_id = None
-    source_position = None
-    destination_id = None
-    destination_position = None
+    source_reference = None
+    destination_reference = None
     
-    def __init__ (self, source_id, source_position, destination_id, destination_position):
-        self.source_id = source_id
-        self.source_position = source_position
-        self.destination_id = destination_id
-        self.destination_position = destination_position
+    def __init__ (self, source_reference, destination_reference):
+        self.source_reference = source_reference
+        self.destination_reference = destination_reference
         
 class Damage (Action):
-    id = None
+    reference = None
     amount = 0
     
-    def __init__ (self, id, amount):
-        self.id = id
+    def __init__ (self, reference, amount):
+        self.reference = reference
         self.amount = amount
+        
+class Death (Action):
+    reference = None
+    
+    def __init__ (self, reference):
+        self.reference = reference

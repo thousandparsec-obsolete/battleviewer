@@ -4,16 +4,16 @@ import pygame, states, math
 
 class BasicEntity (pygame.sprite.Sprite):
     side = None
-    id = None
+    reference = None
     name = None
     weapon = None
     image = None
     rect = None
     
-    def __init__ (self, side, id, name, model, weapon=None):
+    def __init__ (self, side, reference, name, model, weapon=None):
         pygame.sprite.Sprite.__init__(self)
         self.side = side
-        self.id = id
+        self.reference = reference
         self.name = name
         self.weapon = weapon
         
@@ -22,6 +22,10 @@ class BasicEntity (pygame.sprite.Sprite):
         
         # TODO: Need to find a cleaner way of not drawing a sprite.  Current method is dirty!
         self.rect = pygame.rect.Rect(0, 0, self.image.get_width(), self.image.get_height())
+        
+    def death (self):
+        # Play fancy kill animation!
+        self.kill()
         
     def move (self, position):
         self.rect.move_ip(position[0], position[1])
