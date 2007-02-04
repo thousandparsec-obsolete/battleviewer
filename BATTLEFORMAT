@@ -1,21 +1,57 @@
 Thousand Parsec Battle Data Format Specification 0.0.1.
 -----------------------------
 
-The Battle Data is a simple XML file designed to be parsed using a SAX type parser.
+The Battle Data is a simple XML file designed to be parsed using a SAX type
+parser.
+
+There are two parts to defining Battle Data. 
+
+ - The media definition, which includes details about where to find the required
+   graphics and which weapon animations to be used.
+
+ - The battle definition, which include details about what occured in a battle.
+   This include things such as who was in the battle, who fired and what and
+   what damage was done.
+
+The media definition a either is a zip file or directory containing the
+following,
+ - types.xml
+ - graphics required by types.xml
+
+The types.xml looks like the following,
+<battlemedia version="0.0.1">
+	<type id="battleship">
+	   <model>graphics/frigate/model.png</model>
+	   <weaponpoints>
+			   <pixel>0,10</pixel>
+			   <pixel>0,20</pixel>
+	   </weaponpoints>
+	   <weapontype>laser2</weapontype>
+	</type>
+</battlemedia>
+
+It possible things found in a type definition are as follows. All file locations
+should be relative to the types.xml file and should always be below the file.
+IE you can not use '..' to go above the types.xml directory.
+ model        - a mng (for animation) or png (for static) picture which is
+displayed during idle periods. It is also used when other media is not defined.
+ death        - a mng of an explosion or death animation.
+ firing       - a mng of the object "firing"
+ weapontype   - A choice of the possible weapon types - Laser[1-9], Missile,
+Torpedo, has no effect on game, only how the weapon fire is drawn. Each
+different weapon type has a different animation.
+ weapon       - A graphic for the Missile or Torpedo (no graphics for Laser)
+ weaponpoints - These describe the pixel locations where weapon fire appears to
+come from. There can be multiple locations. Some laser types will use all fire
+locations while other types will randomly choose a location.
 
 First the file lists all the sides and the "Entities" on each side.
 Each entity must have a unique id. Recommended format is <type>-<id>-<index>.
-Then the information for each object. 
-An object is required to have:
- name        - Display name for the object
- model       - URL of a mng (for animation) or png (for static) picture which is displayed.
+Then the information for each object. An object is required to have:
+ name        - Display name for the object.
 Optional:
- description - Description of the object
- death       - URL of an explosion or death animation
- firing      - URL of the object "firing"
- weapontype  - A choice of the possible weapon types - Laser[1-9], Missile, Torpedo, has no effect on game, only how the weapon fire is drawn.
- weapon      - A graphic for the Missile or Torpedo (no graphics for Laser)
-
+ description - Description of the object.
+ type        - Which type to use from the media definition.
 
 <sides>
 	<side id="mithro">
@@ -41,7 +77,7 @@ There are the following commands which can be used,
  log("message")                   - Prints a message 
  death(objectid)                  - Object plays death animation and then is removed from the board
  move(objectid, position)         - Object moves to a certain location.
- fire(source objectid, origin, dest objectid, position )
+ fire(source objectid, dest objectid)
                                   - Object plays fire animation. (Origin is pixel position the shot should appear to come from, position is the pixel position where the shot should be placed - relative to top-left of the graphic.)
  damage(objectid, number)         - Amount of damage done to an object
 All commands occur at once.
