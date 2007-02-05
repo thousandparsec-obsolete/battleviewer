@@ -1,60 +1,33 @@
 <?xml version="1.0"?>
 <!DOCTYPE battle SYSTEM "battle.dtd">
-<battle version="0.0.1">
+<battle version="0.0.1" media="minisec">
 <sides>
 	<side id="mithro">
 		<entity id="battleship-54-1">
 			<name>Mithro's Super Fleet, Battleship 1</name>
-			<model>graphics/battleship/model.png</model>
-			<weaponpoints>
-				<pixel>10,0</pixel>
-				<pixel>-10,0</pixel>
-			</weaponpoints>
-			<weapontype>laser5</weapontype>
+			<type>battleship</type>
 		</entity>
 		<entity id="battleship-54-2">
 			<name>Mithro's Super Fleet, Battleship 2</name>
-			<model>graphics/battleship/model.png</model>
-			<weaponpoints>
-				<pixel>10,0</pixel>
-				<pixel>-10,0</pixel>
-			</weaponpoints>
-			<weapontype>laser5</weapontype>
+			<type>battleship</type>
 		</entity>
 		<entity id="planet-23">
 			<name>Mithro's Colony on Omega 1</name>
-			<model>graphics/planet/model.png</model>
-			<weaponpoints>
-				<pixel>30,0</pixel>
-				<pixel>-30,0</pixel>
-				<pixel>0,30</pixel>
-				<pixel>0,-30</pixel>
-			</weaponpoints>
-			<weapontype>laser5</weapontype>
+			<type>battleship</type>
 		</entity>
 	</side>
 	<side id="lee">
 		<entity id="scout-59-1">
 			<name>Lee's Super Fleet, Scout 1</name>
-			<model>graphics/scout/model.png</model>
+			<type>scout</type>
 		</entity>
 		<entity id="battleship-59-2">
 			<name>Lee's Super Fleet, Battleship 1</name>
-			<model>graphics/battleship/model.png</model>
-			<weaponpoints>
-				<pixel>10,0</pixel>
-				<pixel>-10,0</pixel>
-			</weaponpoints>
-			<weapontype>laser5</weapontype>
+			<type>battleship</type>
 		</entity>
 		<entity id="frigate-59-3">
 			<name>Lee's Super Fleet, Frigate 1</name>
-			<model>graphics/frigate/model.png</model>
-			<weaponpoints>
-				<pixel>0,10</pixel>
-				<pixel>0,20</pixel>
-			</weaponpoints>
-			<weapontype>laser2</weapontype>
+			<type>frigate</type>
 		</entity>
 	</side>
 </sides>

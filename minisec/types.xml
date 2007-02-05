@@ -1,0 +1,31 @@
+<battlemedia version="0.0.1">
+	<type id="battleship">
+	   <model>battleship/model.png</model>
+	   <weaponpoints>
+			   <pixel>0,10</pixel>
+			   <pixel>0,20</pixel>
+	   </weaponpoints>
+	   <weapontype>laser2</weapontype>
+	</type>
+	<type id="frigate">
+	   <model>frigate/model.png</model>
+	   <weaponpoints>
+			   <pixel>0,10</pixel>
+			   <pixel>0,20</pixel>
+	   </weaponpoints>
+	   <weapontype>laser2</weapontype>
+	</type>
+	<type id="scout">
+		<model>scout/model.png</model>
+	</type>
+	<type id="planet">
+	   <model>planet/model.png</model>
+	   <weaponpoints>
+			   <pixel>30,0</pixel>
+			   <pixel>-30,0</pixel>
+			   <pixel>0,30</pixel>
+			   <pixel>0,-30</pixel>
+	   </weaponpoints>
+	   <weapontype>laser5</weapontype>
+	</type>
+</battlemedia>
