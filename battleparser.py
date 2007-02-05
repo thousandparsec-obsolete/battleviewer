@@ -74,7 +74,6 @@ class Parser(object):
 	class Weaponpoints(list):
 		group="weaponpoints"
 		def __init__(self, pixels):
-			print pixels
 			for pixel in pixels:
 				self.append(pixel)
 
