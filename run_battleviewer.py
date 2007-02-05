@@ -43,7 +43,7 @@ def main ():
                 # adding the padding here to the position isn't the nicest idea.  all sprites should probably be rewritten to support nesting like UI widgets.
                 current_round.append(actions.Move(action.reference, (action.position[0] + display_padding, action.position[1] + display_padding)))
             elif isinstance(action, battleparser.Parser.Fire):
-                current_round.append(actions.Fire(action.source.reference, action.destination.reference))
+                current_round.append(actions.Fire(action.source, action.destination))
             elif isinstance(action, battleparser.Parser.Damage):
                 current_round.append(actions.Damage(action.reference, action.amount))
             elif isinstance(action, battleparser.Parser.Death):

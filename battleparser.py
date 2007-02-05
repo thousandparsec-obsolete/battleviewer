@@ -1,13 +1,65 @@
 
-import xml.parsers.expat
+import elementtree.ElementTree as ET
+import os.path
+
+class BattleMedia(object):
+	optional = ['death', 'firing', 'weapontype', 'weapon', 'weaponpoints']
+	paths = ['model', 'death', 'firing']
+
+	def __init__(self, f):
+		tree = ET.parse(file(os.path.join(f, 'types.xml'), 'r'))
+		self.root = tree.getroot()
+
+		if self.root.tag.strip() != "battlemedia":
+			raise TypeError("Not a battlemedia file.")
+
+		for node in self.root:
+			id = node.attrib['id']
+		
+			class new(object):
+				type = id
+				weapontype = None
+				weaponpoints = []
+
+			for value in node.getchildren():
+				tag = value.tag.strip()
+				text = value.text.strip()
+
+				if tag in self.paths:
+					setattr(new, tag, os.path.join(f, text))
+				elif len(text) > 0:
+					setattr(new, tag, text)
+				else:
+					setattr(new, tag, value)
+
+				print dir(new)
+
+			tag = node.tag.strip()
+
+			globals()[id] = new
+
+	def weaponpoints_set(self, value):
+		points = []
+		for weaponpoint in value:
+			if weaponpoint.tag.strip() != "pixel":
+				raise TypeError("Weapon Points must list pixels.")
+
+			point = []
+			for p in weaponpoint.text.split(','):
+				point.append(int(p))
+
+			points.append(point)
+		self._weaponpoints = points
+	def weaponpoints_get(self):
+		return self._weaponpoints
+	weaponpoints = property(weaponpoints_get, weaponpoints_set)
 
 class Parser(object):
 	class Battle:
 		"""\
 		Contains everything you need to know about a battle.
-
 		"""
-		def __init__(self, sides, rounds, version):
+		def __init__(self, sides, rounds, version, media):
 			if not isinstance(sides[0], Parser.Sides):
 				raise TypeError("Sides must be sides...")
 			if not isinstance(rounds[0], Parser.Rounds):
@@ -16,6 +68,7 @@ class Parser(object):
 			self.version = version
 			self.sides   = sides[0]
 			self.rounds  = rounds[0]
+			self.media   = media
 
 	class Sides(dict):
 		group="sides"
@@ -48,46 +101,22 @@ class Parser(object):
 
 	class Entity(object):
 		group="entities"
-		def __init__(self, id=None, name=None, model=None, \
-				description="", 
-				weaponpoints=[],
-				death=None,
-				firing=None,
-				weapontype=None,
-				weapon=None):
-			if id is None or name is None or model is None:
-				raise TypeError("Entity requires id, name and model...")
+		def __init__(self, id=None, name=None, type=None, \
+				description=""):
+			if id is None or name is None or type is None:
+				raise TypeError("Entity requires id, name and type...")
+
+			class new(Parser.Entity, globals()[type]):
+				pass
+
+			self.__class__ = new
 
 			self.id = id
 			self.name = name
-			self.model = model
-			self.description = description
-			self.weaponpoints = weaponpoints
-			self.death = death
-			self.firing = firing
-			self.weapontype = weapontype
-			self.weapon = weapon	
+			self.type = type
 		def __repr__(self):
-			return "<Entity %s - '%s'>" % (self.id, self.name)
+			return "<Entity (%s) %s - '%s'>" % (self.type, self.id, self.name)
 		__str__ = __repr__
-
-	class Weaponpoints(list):
-		group="weaponpoints"
-		def __init__(self, pixels):
-			for pixel in pixels:
-				self.append(pixel)
-
-		def __repr__(self):
-			return "<WeaponPoints %s>" % (list.__repr__(self))
-
-	class Pixel(list):
-		group="pixels"
-		def __init__(self, data):
-			for i in data.split(','):
-				self.append(int(i))
-
-		def __repr__(self):
-			return "<Pixel %s>" % list.__repr__(self)
 
 	class Rounds(list):
 		group="rounds"
@@ -116,10 +145,10 @@ class Parser(object):
 		"""\
 		Log Action. Takes a single message which it displays in the log window.
 		"""
-		def __init__(self, data=""):
-			self.data = data
+		def __init__(self, text=""):
+			self.data = text
 		def __repr__(self):
-			return "<Log '%s'>" % (self.data,)
+			return "<Log '%s'>" % (self.text,)
 
 	class Death(Action):
 		"""\
@@ -127,8 +156,8 @@ class Parser(object):
 
 		Prints a log message "<reference> was destroyed."
 		"""
-		def __init__(self, ref):
-			self.reference = ref
+		def __init__(self, reference):
+			self.reference = reference
 
 		def __repr__(self):
 			return "<Death '%s'>" % (self.reference,)
@@ -139,8 +168,8 @@ class Parser(object):
 
 		Prints a log message "<reference> moved to <position>."
 		"""
-		def __init__(self, ref, position):
-			self.reference = ref
+		def __init__(self, reference, position):
+			self.reference = reference
 
 			self.position = []
 			for i in position.split(','):
@@ -162,12 +191,11 @@ class Parser(object):
 		Prints a log message "<source> fired a <weapon> at <destination>."
 		"""
 		def __init__(self, source, destination):
-			self.source = source[0]
-			self.destination = destination[0]
+			self.source = source
+			self.destination = destination
 
 		def __repr__(self):
 			return "<Fire %s %s>" % (self.source, self.destination)
-
 
 	class Damage(Action):
 		"""\
@@ -178,97 +206,53 @@ class Parser(object):
 
 		Prints a log message "<source> was damaged for <amount> HP."
 		"""
-		def __init__(self, ref, amount):
-			self.reference = ref
+		def __init__(self, reference, amount):
+			self.reference = reference
 			self.amount = amount
 
 		def __repr__(self):
 			return "<Damage '%s' %s>" % (self.reference, self.amount)
 
-	class Source(object):
-		group="source"
-		def __init__(self, ref):
-			self.reference = ref
-
-		def __repr__(self):
-			return "<%s %s>" % (self.__class__.__name__, self.reference)
-
-	class Destination(Source):
-		group="destination"
-
-	def __init__(self):
-		self.mode = []
-		self.attr = []
-		self.data = []
-
-	def StartElementHandler(self, name, attr):
-		self.mode.append(getattr(self, name.title(), None))
-
-		self.attr.append({})
-		# Need this to convert from Unicode to ASCII
-		for key, value in attr.items():
-			self.attr[-1][str(key)] = value
-
-		self.data.append(None)
-
-	def EndElementHandler(self, name):
-		if self.mode[-1] != getattr(self, name.title(), None):
-			raise ValueError("Element matching error")
-
-		mode = self.mode.pop(-1)
-		attr = self.attr.pop(-1)
-		data = self.data.pop(-1)
-
-		if mode is None:
-			if not data is None:
-				self.attr[-1][str(name)] = data
-			else:
-				for name, value in attr.items():
-					self.attr[-1][str(name)] = value
-			return
-
-		if not data is None:
-			attr['data'] = data
-	
-		try:
-			obj = mode(**attr)
-		except Exception, e:
-			print mode
-			raise
-
-		if len(self.mode) > 0:
-			if not self.attr[-1].has_key(obj.group):
-				self.attr[-1][obj.group] = []
-			self.attr[-1][obj.group].append(obj)
-		else:
-			self.objects = obj
-
-	def CharacterDataHandler(self, data):
-		data = data.strip()
-		if len(data) > 0:
-			self.data[-1] = data
-
 	def CreateParser(cls):
-		p = xml.parsers.expat.ParserCreate()
-		c = cls()
-
-		for name in cls.__dict__.keys():
-			if name.startswith('_') or name == "CreateParser":
-				continue
-			
-			value = getattr(c, name)
-			try:
-				if callable(value):
-					setattr(p, name, value)
-			except Exception, e:
-				pass
-
-		c.parser = p
-		c.Parse = p.Parse
-		c.ParseFile = p.ParseFile
-
-		return c
+		return cls()
 	CreateParser = classmethod(CreateParser)
+
+	def ParseFile(self, file):
+		tree = ET.parse(file)
+		self.root = tree.getroot()
+
+		media = self.root.attrib['media']
+		self.media   = BattleMedia(media)
+
+		self.objects = self.ConvertNode(self.root)
+
+	def ConvertNode(self, obj):
+		d = {}
+
+		children = obj.getchildren()
+		for child in obj.getchildren():
+			r = self.ConvertNode(child)
+
+			if hasattr(r, "group"):
+				if not d.has_key(r.group):
+					d[r.group] = []
+				d[r.group].append(r)
+			else:
+				print child.tag, r
+				d[child.tag] = r['text']
+
+		if len(obj.attrib) > 0:
+			if obj.attrib.has_key('ref'):
+				d['text'] = obj.attrib['ref']
+			else:
+				d.update(obj.attrib)
+		elif obj.text and len(obj.text.strip()) > 0:
+			d['text'] = obj.text.strip()
+
+		tag = obj.tag.strip().title()
+		if hasattr(Parser, tag):
+			return getattr(Parser, tag)(**d)
+		return d
 
 if __name__ == "__main__":
 	import sys
@@ -281,7 +265,8 @@ if __name__ == "__main__":
 	for side in battle.sides.keys():
 		print side
 		for name, entity in battle.sides[side].items():
-			print entity, entity.weaponpoints
+			print entity, entity.model
 	for round in battle.rounds:
 		print round
+
 

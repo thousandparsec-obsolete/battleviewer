@@ -13,7 +13,7 @@
 		</entity>
 		<entity id="planet-23">
 			<name>Mithro's Colony on Omega 1</name>
-			<type>battleship</type>
+			<type>planet</type>
 		</entity>
 	</side>
 	<side id="lee">
