@@ -27,7 +27,10 @@ def main ():
     # Combat entities
     for side in battle.sides:
         for entity in battle.sides[side].itervalues():
-            battle_view.append_entity(side, entity.id, entity.name, entity.model, entity.weapontype)
+            weapon_points = None
+            if entity.weaponpoints:
+                weapon_points = [(n[0], n[1]) for n in entity.weaponpoints[0]]
+            battle_view.append_entity(side, entity.id, entity.name, entity.model, entity.weapontype, weapon_points)
 
     # Combat Script
     for round in battle.rounds:

@@ -10,12 +10,13 @@ class BasicEntity (pygame.sprite.Sprite):
     image = None
     rect = None
     
-    def __init__ (self, side, reference, name, model, weapon=None):
+    def __init__ (self, side, reference, name, model, weapon=None, weapon_points=[]):
         pygame.sprite.Sprite.__init__(self)
         self.side = side
         self.reference = reference
         self.name = name
         self.weapon = weapon
+        self.weapon_points = weapon_points
         
         # Probably want to consider converting these
         self.image = pygame.image.load(model)

@@ -117,9 +117,9 @@ class BattleView:
                 self.round_timestamp = None
                 self.next_round()
             
-    def append_entity (self, side, reference, name='', model=None, weapon_label=None):
+    def append_entity (self, side, reference, name='', model=None, weapon_label=None, weapon_points=[]):
         weapon = weapons.new_weapon(weapon_label)
         if not self.entity_list.has_key(reference):
-            entity = entities.BasicEntity(side, reference, name, model, weapon)
+            entity = entities.BasicEntity(side, reference, name, model, weapon, weapon_points)
             self.entity_list[reference] = entity
             self.spritegroup.add(entity)
