@@ -8,8 +8,6 @@ class State:
         return '<State %s label="%s">' % (id(self), self.label)
         
 class States:
-    counter = 0
     def __init__ (self, *state_list):
         for state in state_list:
             self.__dict__[state] = State(state)
-            States.counter += 1
