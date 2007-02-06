@@ -69,7 +69,7 @@ def main ():
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     running = False
-        
+
         # Propigate the update event to our battle view
         battle_view.update()
         
