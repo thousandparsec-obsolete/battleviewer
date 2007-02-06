@@ -1,4 +1,4 @@
-import pygame, states, math
+import pygame, states, math, Numeric
 
 # entities and sprites mixed is a bit messy.  this should be cleaned up.
 
@@ -39,6 +39,72 @@ class BasicEntity (pygame.sprite.Sprite):
         
     def is_idle (self):
         return True
+
+class DamageAnimation (pygame.sprite.Sprite):
+    position = None
+    timestamp = 0
+    duration = 0
+    wait_duration = 0
+    states = states.States('waiting', 'animating', 'finished')
+    state = None
+
+    def __init__ (self, damage_amount, position, animation_duration=0, wait_duration=0):
+        pygame.sprite.Sprite.__init__(self)
+        
+        self.x = position[0]
+        self.y = position[1]
+        
+        # Bitstream Vera Sans Mono
+        f = pygame.font.Font('./fonts/VeraMoBd.ttf', 18)
+        
+        shadow_offset = 3
+        text = f.render(str(int(damage_amount)), False, (255,0,0)).convert()
+        shadow = f.render(str(int(damage_amount)), False, (50,50,50)).convert()
+        self.display_image = pygame.surface.Surface((text.get_width() + shadow_offset,  text.get_height() + shadow_offset), 0, 32).convert_alpha()
+        self.display_image.fill((0,0,0,0))
+        self.display_image.blit(shadow, (shadow_offset, shadow_offset))
+        self.display_image.blit(text, (0, 0))
+        self.idle_image = pygame.surface.Surface((0,0))
+        self.image = self.idle_image
+        self.rect = pygame.rect.Rect(self.x, self.y, self.image.get_width(), self.image.get_height())
+        
+        self.state = self.states.waiting
+        self.wait_duration = wait_duration
+        self.duration = float(animation_duration)
+        self.timestamp = pygame.time.get_ticks()
+        
+    def is_idle (self):
+        return ( self.state == self.states.finished )
+        
+    def update (self):
+        if self.state == self.states.waiting:
+            if pygame.time.get_ticks() > self.timestamp + self.wait_duration:
+                self.timestamp = pygame.time.get_ticks()
+                self.state = self.states.animating
+                self.image = self.display_image
+        if self.state == self.states.animating:
+            distance = 150
+            n = min(1, (pygame.time.get_ticks() - self.timestamp) / self.duration)
+            self.rect.left = self.x + self.image.get_width() * math.sin(n*10)
+            self.rect.top = self.y + (-distance * n)
+            
+            # Alpha fade
+            
+            #~ image_surfa = Numeric.array(pygame.surfarray.pixels_alpha(self.image))
+            #~ image_surfa[:,:] = 1
+            
+            #~ image_surfa = pygame.surfarray.array3d(self.image)
+            #~ src = Numerics.array(image_surfa)
+            #~ dest = Numerics.zeros(image_surfa.shape)
+            #~ dest[:] = 20, 50, 100
+            #~ diff = (dest - src) * 0.50
+            #~ xfade = src + diff.astype(N.Int)
+
+            #~ self.image.set_alpha(int(255 * (1-n)))
+            
+            if n == 1:
+                self.state = self.states.finished
+                self.kill()
         
 class LaserBlast (pygame.sprite.Sprite):
     weapon = None

@@ -1,8 +1,11 @@
+#!/usr/bin/env python
+
 import pygame, battleview, actions, battleparser
 
 def main ():
     # Initialize pygame
     pygame.display.init()
+    pygame.font.init()
     
     # Framerate Clock
     clock = pygame.time.Clock()

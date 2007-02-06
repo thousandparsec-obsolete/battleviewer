@@ -83,6 +83,10 @@ class BattleView:
                     self.spritegroup.add(weapon)
                 else:
                     print 'Warning Unknown weapon', self.entity_list[action.source_reference], self.entity_list[action.source_reference].weapon
+            elif isinstance(action, actions.Damage):
+                position = self.entity_list[action.reference].get_position()
+                damage_animation = entities.DamageAnimation(action.amount, position, 2000, 400)
+                self.spritegroup.add(damage_animation)
             elif isinstance(action, actions.Death):
                 self.entity_list[action.reference].death()
         # Incriment the round
