@@ -32,8 +32,6 @@ class BattleMedia(object):
 				else:
 					setattr(new, tag, value)
 
-				print dir(new)
-
 			tag = node.tag.strip()
 
 			globals()[id] = new
@@ -238,7 +236,6 @@ class Parser(object):
 					d[r.group] = []
 				d[r.group].append(r)
 			else:
-				print child.tag, r
 				d[child.tag] = r['text']
 
 		if len(obj.attrib) > 0:
