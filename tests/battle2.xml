@@ -1,0 +1,98 @@
+<battle media="minisec" version="0.0.1">
+  <sides>
+    <side name="tim">
+      <entity id="tim-battleship-0">
+        <name>tim-battleship-0</name>
+        <type>battleship</type>
+      </entity><entity id="tim-homeworld-0">
+        <name>tim-homeworld-0</name>
+        <type>homeworld</type>
+      </entity>
+    </side><side name="lee">
+      <entity id="lee-battleship-0">
+        <name>lee-battleship-0</name>
+        <type>battleship</type>
+      </entity><entity id="lee-battleship-1">
+        <name>lee-battleship-1</name>
+        <type>battleship</type>
+      </entity><entity id="lee-battleship-2">
+        <name>lee-battleship-2</name>
+        <type>battleship</type>
+      </entity><entity id="lee-battleship-3">
+        <name>lee-battleship-3</name>
+        <type>battleship</type>
+      </entity><entity id="lee-battleship-4">
+        <name>lee-battleship-4</name>
+        <type>battleship</type>
+      </entity><entity id="lee-battleship-5">
+        <name>lee-battleship-5</name>
+        <type>battleship</type>
+      </entity><entity id="lee-battleship-6">
+        <name>lee-battleship-6</name>
+        <type>battleship</type>
+      </entity><entity id="lee-battleship-7">
+        <name>lee-battleship-7</name>
+        <type>battleship</type>
+      </entity><entity id="lee-frigate-0">
+        <name>lee-frigate-0</name>
+        <type>frigate</type>
+      </entity><entity id="lee-frigate-1">
+        <name>lee-frigate-1</name>
+        <type>frigate</type>
+      </entity>
+    </side>
+  </sides><rounds>
+    <round no="0">
+      <log>tim choose Paper.</log>
+      <log>lee choose Scissors.</log>
+      <log>lee won the round!</log>
+      <fire>
+        <source ref="lee-battleship-0" />
+        <destination ref="tim-battleship-0" />
+      </fire><damage>
+        <reference ref="tim-battleship-0" />
+        <amount>3</amount>
+      </damage><fire>
+        <source ref="lee-battleship-1" />
+        <destination ref="tim-battleship-0" />
+      </fire><damage>
+        <reference ref="tim-battleship-0" />
+        <amount>3</amount>
+      </damage><death>
+        <reference ref="tim-battleship-0" />
+      </death><fire>
+        <source ref="lee-battleship-2" />
+        <destination ref="tim-homeworld-0" />
+      </fire><damage>
+        <reference ref="tim-homeworld-0" />
+        <amount>3</amount>
+      </damage><fire>
+        <source ref="lee-battleship-3" />
+        <destination ref="tim-homeworld-0" />
+      </fire><damage>
+        <reference ref="tim-homeworld-0" />
+        <amount>3</amount>
+      </damage><fire>
+        <source ref="lee-battleship-4" />
+        <destination ref="tim-homeworld-0" />
+      </fire><damage>
+        <reference ref="tim-homeworld-0" />
+        <amount>3</amount>
+      </damage><fire>
+        <source ref="lee-battleship-5" />
+        <destination ref="tim-homeworld-0" />
+      </fire><damage>
+        <reference ref="tim-homeworld-0" />
+        <amount>3</amount>
+      </damage><fire>
+        <source ref="lee-battleship-6" />
+        <destination ref="tim-homeworld-0" />
+      </fire><damage>
+        <reference ref="tim-homeworld-0" />
+        <amount>3</amount>
+      </damage><death>
+        <reference ref="tim-homeworld-0" />
+      </death><log>tim was knocked out of the battle.</log>
+    </round>
+  </rounds>
+</battle>

@@ -1,0 +1,57 @@
+<battle media="minisec" version="0.0.1">
+  <sides>
+    <side name="tim">
+      <entity id="tim-homeworld-0">
+        <name>tim-homeworld-0</name>
+        <type>homeworld</type>
+      </entity>
+    </side><side name="lee">
+      <entity id="lee-frigate-0">
+        <name>lee-frigate-0</name>
+        <type>frigate</type>
+      </entity><entity id="lee-frigate-1">
+        <name>lee-frigate-1</name>
+        <type>frigate</type>
+      </entity>
+    </side>
+  </sides><rounds>
+    <round no="0">
+      <log>lee choose Rock.</log>
+      <log>tim choose Rock.</log>
+      <log>Round was a draw!</log>
+    </round><round no="1">
+      <log>lee choose Rock.</log>
+      <log>tim choose Paper.</log>
+      <log>tim won the round!</log>
+      <fire>
+        <source ref="tim-homeworld-0" />
+        <destination ref="lee-frigate-0" />
+      </fire><damage>
+        <reference ref="lee-frigate-0" />
+        <amount>3</amount>
+      </damage><fire>
+        <source ref="tim-homeworld-0" />
+        <destination ref="lee-frigate-1" />
+      </fire><damage>
+        <reference ref="lee-frigate-1" />
+        <amount>3</amount>
+      </damage><fire>
+        <source ref="tim-homeworld-0" />
+        <destination ref="lee-frigate-0" />
+      </fire><damage>
+        <reference ref="lee-frigate-0" />
+        <amount>3</amount>
+      </damage><death>
+        <reference ref="lee-frigate-0" />
+      </death><fire>
+        <source ref="tim-homeworld-0" />
+        <destination ref="lee-frigate-1" />
+      </fire><damage>
+        <reference ref="lee-frigate-1" />
+        <amount>3</amount>
+      </damage><death>
+        <reference ref="lee-frigate-1" />
+      </death><log>lee was knocked out of the battle.</log>
+    </round>
+  </rounds>
+</battle>
