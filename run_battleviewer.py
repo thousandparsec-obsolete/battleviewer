@@ -43,8 +43,10 @@ def main ():
             if isinstance(action, battleparser.Parser.Log):
                 current_round.append(actions.Log(action.data))
             elif isinstance(action, battleparser.Parser.Move):
-                # adding the padding here to the position isn't the nicest idea.  all sprites should probably be rewritten to support nesting like UI widgets.
-                current_round.append(actions.Move(action.reference, (action.position[0] + display_padding, action.position[1] + display_padding)))
+                # adding the padding here to the position isn't the nicest idea.  
+                # all sprites should probably be rewritten to support nesting like UI widgets.
+                current_round.append(actions.Move(action.reference,
+                    (action.position[0] + display_padding, action.position[1] + display_padding)))
             elif isinstance(action, battleparser.Parser.Fire):
                 current_round.append(actions.Fire(action.source, action.destination))
             elif isinstance(action, battleparser.Parser.Damage):

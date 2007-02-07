@@ -3,12 +3,6 @@ import pygame, states, math, Numeric
 # entities and sprites mixed is a bit messy.  this should be cleaned up.
 
 class BasicEntity (pygame.sprite.Sprite):
-    side = None
-    reference = None
-    name = None
-    weapon = None
-    image = None
-    rect = None
     states = states.States('idle', 'death')
     state = None
     
@@ -20,29 +14,20 @@ class BasicEntity (pygame.sprite.Sprite):
         self.weapon = weapon
         self.weapon_points = weapon_points
         
+        self.death_duration = 1500.0
+        self.visible = False
+        self.image = pygame.image.load(model)
+        self.rect = pygame.rect.Rect(0, 0, self.image.get_width(), self.image.get_height())
         self.state = self.states.idle
         
-        self.death_duration = 1500.0
-        
-        # Probably want to consider converting these
-        self.display_image = pygame.image.load(model)
-        self.idle_image = pygame.surface.Surface((0,0))
-        
-        self.image = self.idle_image
-        
-        self.rect = pygame.rect.Rect(0, 0, self.image.get_width(), self.image.get_height())
-        
     def death (self):
-        # copy the display image so we can mess with it in the death animation
-        self.image = self.display_image.copy()
         self.timestamp = pygame.time.get_ticks()
         # Play fancy kill animation!
         self.state = self.states.death
         
     def move (self, position):
-        # Change to display image now we have a valid position
-        self.image = self.display_image
-        self.rect = pygame.rect.Rect(0, 0, self.image.get_width(), self.image.get_height())
+        # Display the entity now we have a valid position
+        self.visible = True
         # Update our rect position
         self.rect.move_ip(position[0], position[1])
         
@@ -52,7 +37,7 @@ class BasicEntity (pygame.sprite.Sprite):
             # We can destroy this since this is the final use of this entities image
             pygame.surfarray.pixels3d(self.image)[:,:,0] = 126 + 126 * math.cos(n*24)
             if n == 1:
-                self.image = self.idle_image
+                self.visible = False
                 self.state = self.states.idle
                 self.kill()
             
@@ -63,10 +48,6 @@ class BasicEntity (pygame.sprite.Sprite):
         return ( self.state == self.states.idle )
 
 class DamageAnimation (pygame.sprite.Sprite):
-    position = None
-    timestamp = 0
-    duration = 0
-    wait_duration = 0
     states = states.States('waiting', 'animating', 'finished')
     state = None
     font = None
@@ -123,11 +104,6 @@ class DamageAnimation (pygame.sprite.Sprite):
                 self.kill()
         
 class LaserBlast (pygame.sprite.Sprite):
-    weapon = None
-    image = None
-    rect = None
-    duration = 0
-    timestamp = 0
     states = states.States('idle', 'animating')
     state = None
     

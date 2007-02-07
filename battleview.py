@@ -1,5 +1,10 @@
 import pygame, actions, weapons, entities
 
+# Class that allows sprites to have a visible attribute for display
+class RenderVisible (pygame.sprite.OrderedUpdates):
+    def sprites (self):
+        return filter(lambda sprite: getattr(sprite, 'visible', True), self.spritedict.keys())
+            
 class BattleView:
     # Reference to the pygame display surface
     display_surface = None
@@ -32,7 +37,7 @@ class BattleView:
         self.entity_list = {}
     
         # Sprite group for drawing all entities
-        self.spritegroup = pygame.sprite.OrderedUpdates()
+        self.spritegroup = RenderVisible()
         
         # Store the current round
         self.round = 0
