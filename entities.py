@@ -9,6 +9,8 @@ class BasicEntity (pygame.sprite.Sprite):
     weapon = None
     image = None
     rect = None
+    states = states.States('idle', 'death')
+    state = None
     
     def __init__ (self, side, reference, name, model, weapon=None, weapon_points=[]):
         pygame.sprite.Sprite.__init__(self)
@@ -18,27 +20,47 @@ class BasicEntity (pygame.sprite.Sprite):
         self.weapon = weapon
         self.weapon_points = weapon_points
         
-        # Probably want to consider converting these
-        self.image = pygame.image.load(model)
+        self.state = self.states.idle
         
-        # TODO: Need to find a cleaner way of not drawing a sprite.  Current method is dirty!
+        self.death_duration = 1500.0
+        
+        # Probably want to consider converting these
+        self.display_image = pygame.image.load(model)
+        self.idle_image = pygame.surface.Surface((0,0))
+        
+        self.image = self.idle_image
+        
         self.rect = pygame.rect.Rect(0, 0, self.image.get_width(), self.image.get_height())
         
     def death (self):
+        # copy the display image so we can mess with it in the death animation
+        self.image = self.display_image.copy()
+        self.timestamp = pygame.time.get_ticks()
         # Play fancy kill animation!
-        self.kill()
+        self.state = self.states.death
         
     def move (self, position):
+        # Change to display image now we have a valid position
+        self.image = self.display_image
+        self.rect = pygame.rect.Rect(0, 0, self.image.get_width(), self.image.get_height())
+        # Update our rect position
         self.rect.move_ip(position[0], position[1])
         
     def update (self):
-        pass
-        
+        if self.state == self.states.death:
+            n = min(1, (pygame.time.get_ticks() - self.timestamp) / self.death_duration)
+            # We can destroy this since this is the final use of this entities image
+            pygame.surfarray.pixels3d(self.image)[:,:,0] = 126 + 126 * math.cos(n*24)
+            if n == 1:
+                self.image = self.idle_image
+                self.state = self.states.idle
+                self.kill()
+            
     def get_position (self):
         return self.rect.center
         
     def is_idle (self):
-        return True
+        return ( self.state == self.states.idle )
 
 class DamageAnimation (pygame.sprite.Sprite):
     position = None
@@ -47,19 +69,21 @@ class DamageAnimation (pygame.sprite.Sprite):
     wait_duration = 0
     states = states.States('waiting', 'animating', 'finished')
     state = None
-
+    font = None
+    
     def __init__ (self, damage_amount, position, animation_duration=0, wait_duration=0):
         pygame.sprite.Sprite.__init__(self)
         
+        if DamageAnimation.font == None:
+            # Bitstream Vera Sans Mono
+            DamageAnimation.font = pygame.font.Font('./fonts/VeraMoBd.ttf', 18)
+            
         self.x = position[0]
         self.y = position[1]
         
-        # Bitstream Vera Sans Mono
-        f = pygame.font.Font('./fonts/VeraMoBd.ttf', 18)
-        
         shadow_offset = 3
-        text = f.render(str(int(damage_amount)), False, (255,0,0)).convert()
-        shadow = f.render(str(int(damage_amount)), False, (50,50,50)).convert()
+        text = self.font.render(str(int(damage_amount)), False, (255,0,0)).convert()
+        shadow = self.font.render(str(int(damage_amount)), False, (50,50,50)).convert()
         self.display_image = pygame.surface.Surface((text.get_width() + shadow_offset,  text.get_height() + shadow_offset), 0, 32).convert_alpha()
         self.display_image.fill((0,0,0,0))
         self.display_image.blit(shadow, (shadow_offset, shadow_offset))
@@ -67,6 +91,9 @@ class DamageAnimation (pygame.sprite.Sprite):
         self.idle_image = pygame.surface.Surface((0,0))
         self.image = self.idle_image
         self.rect = pygame.rect.Rect(self.x, self.y, self.image.get_width(), self.image.get_height())
+        
+        # Record of original alpha for blending
+        self.original_alpha = pygame.surfarray.array_alpha(self.display_image)
         
         self.state = self.states.waiting
         self.wait_duration = wait_duration
@@ -89,18 +116,7 @@ class DamageAnimation (pygame.sprite.Sprite):
             self.rect.top = self.y + (-distance * n)
             
             # Alpha fade
-            
-            #~ image_surfa = Numeric.array(pygame.surfarray.pixels_alpha(self.image))
-            #~ image_surfa[:,:] = 1
-            
-            #~ image_surfa = pygame.surfarray.array3d(self.image)
-            #~ src = Numerics.array(image_surfa)
-            #~ dest = Numerics.zeros(image_surfa.shape)
-            #~ dest[:] = 20, 50, 100
-            #~ diff = (dest - src) * 0.50
-            #~ xfade = src + diff.astype(N.Int)
-
-            #~ self.image.set_alpha(int(255 * (1-n)))
+            pygame.surfarray.pixels_alpha(self.image)[:,:] = Numeric.multiply(self.original_alpha, 1-n).astype(Numeric.UInt8)
             
             if n == 1:
                 self.state = self.states.finished
