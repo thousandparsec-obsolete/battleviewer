@@ -1,3 +1,5 @@
+import sys
+sys.path.append('..')
 import pygame, Numeric, math, states, random
 
 def blur_surface (rgb_surface):
@@ -14,14 +16,14 @@ def blur_surface (rgb_surface):
 class EntitySprite (pygame.sprite.Sprite):
     def __init__ (self, offset, color):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load('./minisec/frigate/model.png').convert_alpha()
+        self.image = pygame.image.load('../minisec/frigate/model.png').convert_alpha()
         self.rect = self.image.get_rect()
         self.offset = offset
         self.color = color
-        #~ self.rect.left = display.get_width() * 0.5 + 150 * math.cos(self.offset) - self.image.get_width() * 0.5
-        #~ self.rect.top = display.get_height() * 0.5 + 100 * math.sin(self.offset) - self.image.get_height() * 0.5
-        self.rect.left = ( display.get_width() - self.image.get_width() ) * random.random()
-        self.rect.top =  ( display.get_height() - self.image.get_height() ) * random.random()
+        self.rect.left = display.get_width() * 0.5 + 150 * math.cos(self.offset) - self.image.get_width() * 0.5
+        self.rect.top = display.get_height() * 0.5 + 100 * math.sin(self.offset) - self.image.get_height() * 0.5
+        #~ self.rect.left = ( display.get_width() - self.image.get_width() ) * random.random()
+        #~ self.rect.top =  ( display.get_height() - self.image.get_height() ) * random.random()
         
     def update (self, ticks):
         # update entity values
@@ -164,8 +166,8 @@ display.blit(background, (0,0))
 
 pygame.display.flip()
             
-e0 = EntitySprite(0, (255,0,0))
-e1 = EntitySprite(math.pi*1.5, (0,255,0))
+e0 = EntitySprite(0.3, (255,0,0))
+e1 = EntitySprite(math.pi+0.3, (0,255,0))
 l0 = LaserSprite((128,0,255), 3, 200, 1)
 l1 = LaserSprite((255,255,0), 5, 1000, 1)
 group = pygame.sprite.OrderedUpdates()

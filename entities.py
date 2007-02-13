@@ -52,12 +52,12 @@ class DamageAnimation (pygame.sprite.Sprite):
     state = None
     font = None
     
-    def __init__ (self, damage_amount, position, animation_duration=0, wait_duration=0):
+    def __init__ (self, damage_amount, position, animation_duration=0, wait_duration=0, font_path='./fonts/'):
         pygame.sprite.Sprite.__init__(self)
         
         if DamageAnimation.font == None:
             # Bitstream Vera Sans Mono
-            DamageAnimation.font = pygame.font.Font('./fonts/VeraMoBd.ttf', 18)
+            DamageAnimation.font = pygame.font.Font(font_path+'VeraMoBd.ttf', 18)
             
         self.x = position[0]
         self.y = position[1]

@@ -1,3 +1,5 @@
+import sys
+sys.path.append('..')
 import pygame, entities, random
 
 class View:
@@ -68,7 +70,7 @@ def main ():
         position = (random.randrange(xmin,xmax), random.randrange(ymin,ymax))
         speed = random.randrange(5000,7000)
         wait = random.randrange(500,2000)
-        damage_animation = entities.DamageAnimation(damage_amount, position, speed, wait)
+        damage_animation = entities.DamageAnimation(damage_amount, position, speed, wait, '../fonts/')
         view.append_entity(damage_animation)
     
     # Event loop
