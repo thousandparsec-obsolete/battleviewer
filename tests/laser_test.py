@@ -171,7 +171,7 @@ pygame.display.flip()
 e0 = EntitySprite(0.3, (255,0,0))
 e1 = EntitySprite(math.pi+0.3, (0,255,0))
 l0 = LaserSprite((128,0,255), 3, 200, 1)
-l1 = LaserSprite((255,255,0), 5, 1000, 1)
+l1 = LaserSprite((0,0,255), 3, 200, 1)
 group = pygame.sprite.OrderedUpdates()
 
 group.add(e0)
