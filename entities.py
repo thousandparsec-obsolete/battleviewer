@@ -1,4 +1,4 @@
-import pygame, states, math, Numeric
+import pygame, states, math, Numeric, utility
 
 # entities and sprites mixed is a bit messy.  this should be cleaned up.
 
@@ -31,9 +31,9 @@ class BasicEntity (pygame.sprite.Sprite):
         # Update our rect position
         self.rect.move_ip(position[0], position[1])
         
-    def update (self):
+    def update (self, ticks):
         if self.state == self.states.death:
-            n = min(1, (pygame.time.get_ticks() - self.timestamp) / self.death_duration)
+            n = min(1, (ticks - self.timestamp) / self.death_duration)
             # We can destroy this since this is the final use of this entities image
             pygame.surfarray.pixels3d(self.image)[:,:,0] = 126 + 126 * math.cos(n*24)
             if n == 1:
@@ -84,15 +84,15 @@ class DamageAnimation (pygame.sprite.Sprite):
     def is_idle (self):
         return ( self.state == self.states.finished )
         
-    def update (self):
+    def update (self, ticks):
         if self.state == self.states.waiting:
-            if pygame.time.get_ticks() > self.timestamp + self.wait_duration:
-                self.timestamp = pygame.time.get_ticks()
+            if ticks > self.timestamp + self.wait_duration:
+                self.timestamp = ticks
                 self.state = self.states.animating
                 self.image = self.display_image
         if self.state == self.states.animating:
             distance = 150
-            n = min(1, (pygame.time.get_ticks() - self.timestamp) / self.duration)
+            n = min(1, (ticks - self.timestamp) / self.duration)
             self.rect.left = self.x + self.image.get_width() * math.sin(n*10)
             self.rect.top = self.y + (-distance * n)
             
@@ -102,53 +102,125 @@ class DamageAnimation (pygame.sprite.Sprite):
             if n == 1:
                 self.state = self.states.finished
                 self.kill()
-        
+
 class LaserBlast (pygame.sprite.Sprite):
     states = states.States('idle', 'animating')
     state = None
     
     def __init__ (self, weapon, source_position, destination_position):
         pygame.sprite.Sprite.__init__(self)
+        
         self.weapon = weapon
+        self.weapon.duration = float(self.weapon.duration) # ensure we are using floats
+        self.padding = self.weapon.width
         
-        width = destination_position[0] - source_position[0]
-        height = destination_position[1] - source_position[1]
+        self.source_position = source_position
+        self.destination_position = destination_position
         
-        x = source_position[0]
-        y = source_position[1]
+        self.idle_image = pygame.surface.Surface((0,0))
+        self.image = self.idle_image
+        self.rect = pygame.rect.Rect(self.source_position[0], self.source_position[1], self.image.get_width(), self.image.get_height())
         
-        if width < 0:
-            width = abs(width)
-            x = destination_position[0]
-        if height < 0:
-            height = abs(height)
-            y = destination_position[1]
+        # Prerender the laser
+        self.draw_laser()
         
-        self.margin = 10
-        width += self.margin * 2
-        height += self.margin * 2
-        
-        self.image = pygame.surface.Surface((width, height), 0, 32)
-        self.rect = pygame.rect.Rect(x-self.margin, y-self.margin, width, height)
-        
-        self.duration = float(self.weapon.duration)
+        # Start animation
         self.start_animation()
         
+    def is_idle (self):
+        return ( self.state == self.states.idle )
+
+    def draw_laser (self):
+        
+        # determin width
+        xwidth = (self.destination_position[0] - self.source_position[0])
+        ywidth = (self.destination_position[1] - self.source_position[1])
+        
+        # alter width for padding
+        if xwidth < 0:
+            xwidth -= self.padding * 2
+        else:
+            xwidth += self.padding * 2
+            
+        if ywidth < 0:
+            ywidth -= self.padding * 2
+        else:
+            ywidth += self.padding * 2
+        
+        # Create the laser alpha channel surface
+        tmp_image = pygame.surface.Surface((abs(xwidth), abs(ywidth))).convert_alpha()
+        tmp_image.fill((0,0,0))
+        
+        self.laser_rect = tmp_image.get_rect()
+        
+        # reorganise position variables depending on which quater we are in, also update our rect
+        if xwidth > 0:
+            if ywidth > 0:
+                pos0 = [self.padding, self.padding]
+                pos1 = [self.laser_rect.width - self.padding, self.laser_rect.height - self.padding]
+                self.laser_rect.move_ip((self.source_position[0] - self.padding, self.source_position[1] - self.padding))
+            else:
+                pos0 = [self.laser_rect.width - self.padding, self.padding]
+                pos1 = [self.padding, self.laser_rect.height - self.padding]
+                self.laser_rect.move_ip((self.source_position[0] - self.padding, self.destination_position[1] - self.padding))
+        else:
+            if ywidth > 0:
+                pos0 = [self.laser_rect.width - self.padding, self.padding]
+                pos1 = [self.padding, self.laser_rect.height - self.padding]
+                self.laser_rect.move_ip((self.destination_position[0] - self.padding, self.source_position[1] - self.padding))
+            else:
+                pos0 = [self.padding, self.padding]
+                pos1 = [self.laser_rect.width - self.padding, self.laser_rect.height - self.padding]
+                self.laser_rect.move_ip((self.destination_position[0] - self.padding, self.destination_position[1] - self.padding))
+        
+        # Draw laser
+        pygame.draw.line(tmp_image, (255,255,255), pos0, (pos1[0],pos1[1]), self.weapon.width)
+        
+        # Blur surface (this will be a gaussian blur later and facilitate a less-poor looking beam)
+        utility.blur_surface(tmp_image)
+        utility.blur_surface(tmp_image)
+        utility.blur_surface(tmp_image)
+        
+        tmp_array = pygame.surfarray.array3d(tmp_image)
+        
+        self.laser_image = tmp_image
+        self.laser_image.fill(self.weapon.color)
+        
+        # cheap gradient, need to change this into a LUT of some kind
+        w = self.weapon.width
+        tm = (255/w)
+        color = (self.weapon.color[0], self.weapon.color[1], self.weapon.color[2])
+        while w > 0:
+            color = (
+                min(255, color[0]+tm),
+                min(255, color[1]+tm),
+                min(255, color[2]+tm))
+            pygame.draw.line(self.laser_image, color, pos0, (pos1[0],pos1[1]), w)
+            w -= 1
+        
+        pygame.surfarray.pixels_alpha(self.laser_image)[:,:] = tmp_array[:,:,0]
+
+        # Record of original alpha for blending
+        self.laser_alpha = pygame.surfarray.array_alpha(self.laser_image.copy().convert_alpha())
+        
+        #print self.laser_alpha, self.laser_image, self.laser_rect
+        
     def start_animation (self):
-        self.image.fill((0,0,0))
-        self.image.set_colorkey((0,0,0))
+        self.current_pulse = 0
+        self.image = self.laser_image
+        self.rect = self.laser_rect
         self.timestamp = pygame.time.get_ticks()
         self.state = self.states.animating
         
-    def update (self):
-        n = min(1, (pygame.time.get_ticks() - self.timestamp) / self.duration)
-        # Should really use an alpha for this
-        a = 0.5 + (0.5 * math.sin(n*self.weapon.pulse))
-        c = (self.weapon.color[0]*a, self.weapon.color[1]*a, self.weapon.color[2]*a)
-        pygame.draw.line(self.image, c, (self.margin,self.margin), (self.image.get_width()-self.margin, self.image.get_height()-self.margin), self.weapon.width)
-        if n == 1:
-            self.state = self.states.idle
-            self.kill()
-            
-    def is_idle (self):
-        return ( self.state == self.states.idle )
+    def update (self, ticks):
+        if self.state == self.states.animating:
+            n = min(1, (ticks - self.timestamp) / self.weapon.duration)
+            # Alpha fade
+            pygame.surfarray.pixels_alpha(self.image)[:,:] = Numeric.multiply(self.laser_alpha, 1-n).astype(Numeric.UInt8)
+            if n == 1:
+                # Loop
+                if self.current_pulse < self.weapon.pulse:
+                    self.current_pulse += 1
+                    self.timestamp = ticks
+                else:
+                    self.state = self.states.idle

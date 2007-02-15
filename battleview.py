@@ -1,4 +1,4 @@
-import pygame, actions, weapons, entities
+import pygame, actions, weapons, entities, utility
 
 # Class that allows sprites to have a visible attribute for display
 class RenderVisible (pygame.sprite.OrderedUpdates):
@@ -27,6 +27,10 @@ class BattleView:
         self.background_surface = pygame.surface.Surface((self.display_surface.get_width(), self.display_surface.get_height()))
         self.background_surface.fill(background_color)
         
+        print 'generating starfield...',
+        utility.static_starfield(self.background_surface, 200)
+        print 'done.'
+
         # Blit the background surface to the display surface
         self.display_surface.blit(self.background_surface, (0,0))
     
@@ -84,8 +88,8 @@ class BattleView:
                 destination_position = self.entity_list[action.destination_reference].get_position()
                 if isinstance(self.entity_list[action.source_reference].weapon, weapons.BasicLaser):
                     # laser weapon
-                    weapon = entities.LaserBlast(self.entity_list[action.source_reference].weapon, source_position, destination_position)
-                    self.spritegroup.add(weapon)
+                    laser_entity = entities.LaserBlast(self.entity_list[action.source_reference].weapon, source_position, destination_position)
+                    self.spritegroup.add(laser_entity)
                 else:
                     print 'Warning Unknown weapon', self.entity_list[action.source_reference], self.entity_list[action.source_reference].weapon
             elif isinstance(action, actions.Damage):
@@ -94,6 +98,7 @@ class BattleView:
                 self.spritegroup.add(damage_animation)
             elif isinstance(action, actions.Death):
                 self.entity_list[action.reference].death()
+                
         # Incriment the round
         self.round += 1
         
@@ -110,7 +115,7 @@ class BattleView:
         #~ # Update all sprites - we manually do this so we can determin if all sprites are idle
         for sprite in self.spritegroup:
             # Tell the entity to update
-            sprite.update()
+            sprite.update(pygame.time.get_ticks())
             if not sprite.is_idle():
                 complete = False
         

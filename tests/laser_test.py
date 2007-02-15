@@ -157,10 +157,7 @@ starcount = 200
 for n in range(starcount):
     r = random.randrange(10,200)
     color = (r,r,r)
-    if n % 100 == 0:
-        blur_surface(background)
     background.set_at((random.randrange(0, background.get_width()), random.randrange(0, background.get_height())), color)
-blur_surface(background)
 print 'running'
         
 display = pygame.display.set_mode((background.get_width(),background.get_height()),0,32)

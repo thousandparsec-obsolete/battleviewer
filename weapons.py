@@ -1,8 +1,8 @@
 class BasicLaser:
-    width = 1
+    width = 3
     duration = 500
     pulse = 1
-    color = (255,255,255)
+    color = (0,0,255)
     surface = None
     
     def fire (self, source, destination):
@@ -12,16 +12,16 @@ class BasicLaser:
         pass
         
 class Laser2 (BasicLaser):
-    width = 1
+    width = 3
     duration = 800
-    pulse = 50
-    color = (255, 255, 0)
+    pulse = 1
+    color = (128,0,255)
     
 class Laser5 (BasicLaser):
-    width = 2
+    width = 5
     duration = 900
-    pulse = 20
-    color = (255, 0, 0)
+    pulse = 1
+    color = (255,128,0)
     
 def new_weapon (label=None):
     weapon = None
