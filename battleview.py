@@ -121,7 +121,9 @@ class BattleView:
         
         # Redraw sprites
         rectlist = self.spritegroup.draw(self.display_surface)
+        
         pygame.display.update(rectlist)
+            
         self.spritegroup.clear(self.display_surface, self.background_surface)
         
         if complete:

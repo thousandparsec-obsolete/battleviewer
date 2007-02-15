@@ -20,6 +20,9 @@ class BasicEntity (pygame.sprite.Sprite):
         self.rect = pygame.rect.Rect(0, 0, self.image.get_width(), self.image.get_height())
         self.state = self.states.idle
         
+        self.framecount = 0
+        self.frameskip = 3
+        
     def death (self):
         self.timestamp = pygame.time.get_ticks()
         # Play fancy kill animation!
@@ -33,6 +36,10 @@ class BasicEntity (pygame.sprite.Sprite):
         
     def update (self, ticks):
         if self.state == self.states.death:
+            self.framecount += 1
+            if self.framecount < self.frameskip:
+                return
+            self.framecount = 0
             n = min(1, (ticks - self.timestamp) / self.death_duration)
             # We can destroy this since this is the final use of this entities image
             pygame.surfarray.pixels3d(self.image)[:,:,0] = 126 + 126 * math.cos(n*24)
@@ -63,7 +70,7 @@ class DamageAnimation (pygame.sprite.Sprite):
         self.y = position[1]
         
         shadow_offset = 3
-        text = self.font.render(str(int(damage_amount)), False, (255,0,0)).convert()
+        text = self.font.render(str(int(damage_amount)), False, (255,255,255)).convert()
         shadow = self.font.render(str(int(damage_amount)), False, (50,50,50)).convert()
         self.display_image = pygame.surface.Surface((text.get_width() + shadow_offset,  text.get_height() + shadow_offset), 0, 32).convert_alpha()
         self.display_image.fill((0,0,0,0))
@@ -120,6 +127,9 @@ class LaserBlast (pygame.sprite.Sprite):
         self.idle_image = pygame.surface.Surface((0,0))
         self.image = self.idle_image
         self.rect = pygame.rect.Rect(self.source_position[0], self.source_position[1], self.image.get_width(), self.image.get_height())
+        
+        self.framecount = 0
+        self.frameskip = 2
         
         # Prerender the laser
         self.draw_laser()
@@ -214,6 +224,10 @@ class LaserBlast (pygame.sprite.Sprite):
         
     def update (self, ticks):
         if self.state == self.states.animating:
+            self.framecount += 1
+            if self.framecount < self.frameskip:
+                return
+            self.framecount = 0
             n = min(1, (ticks - self.timestamp) / self.weapon.duration)
             # Alpha fade
             pygame.surfarray.pixels_alpha(self.image)[:,:] = Numeric.multiply(self.laser_alpha, 1-n).astype(Numeric.UInt8)

@@ -11,7 +11,7 @@ def main ():
     clock = pygame.time.Clock()
     
     # Desired delay between frame redraws (25 fps target framerate)
-    frame_delay = 1000/25
+    frame_rate = 25
     
     # Create the display
     display_padding = 12
@@ -71,12 +71,15 @@ def main ():
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     running = False
-
+            elif event.type == pygame.VIDEOEXPOSE:
+                # Force a redraw if the application comes to the foreground
+                pygame.display.flip()
+            
         # Propigate the update event to our battle view
         battle_view.update()
         
         # Sleep the main loop for the desired time
-        if running: clock.tick(frame_delay)
+        if running: clock.tick(frame_rate)
         
 if __name__ == '__main__':
     main()
