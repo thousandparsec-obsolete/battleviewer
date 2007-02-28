@@ -10,6 +10,8 @@ def main ():
     # Framerate Clock
     clock = pygame.time.Clock()
     
+    pygame.display.set_caption('Battle Viewer')
+    
     # Desired delay between frame redraws (25 fps target framerate)
     frame_rate = 25
     
@@ -23,7 +25,7 @@ def main ():
     battle_view = battleview.BattleView(display_surface)
     
     battle_parser = battleparser.Parser.CreateParser()
-    battle_parser.ParseFile(file("example1.xml", "r"))
+    battle_parser.ParseFile(file("./example1.xml", "r"))
 
     battle = battle_parser.objects
     
