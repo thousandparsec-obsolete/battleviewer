@@ -1,6 +1,11 @@
 #!/usr/bin/env python
 
-import pygame, battleview, actions, battleparser
+import pygame, battleview, battlecontroller, battleparser
+
+import actions, constants
+
+from ocempgui.object import BaseObject
+from ocempgui.events import EventManager
 
 def main ():
     # Initialize pygame
@@ -21,9 +26,18 @@ def main ():
     display_depth = 24
     display_surface = pygame.display.set_mode(display_size, 0, display_depth)
     
-    # Create our battle view instance
-    battle_view = battleview.BattleView(display_surface)
+    # Event manager
+    event_manager = EventManager()
     
+    # Create the battle controller instance.  This object is responsible for directing the battle
+    battle_controller = battlecontroller.BattleController()
+    battle_controller.manager = event_manager
+    
+    # Create the battle view instance.  This object is responsible for drawing the battle
+    battle_view = battleview.BattleView(display_surface)
+    battle_view.manager = event_manager
+    
+    # Parse the battle XML
     battle_parser = battleparser.Parser.CreateParser()
     battle_parser.ParseFile(file("./example1.xml", "r"))
 
@@ -35,7 +49,8 @@ def main ():
             weapon_points = None
             if entity.weaponpoints:
                 weapon_points = [(n[0], n[1]) for n in entity.weaponpoints[0]]
-            battle_view.append_entity(side, entity.id, entity.name, entity.model, entity.weapontype, weapon_points)
+            battle_controller.append_entity(side, entity.id, entity.name, entity.model,
+                                            entity.weapontype, weapon_points)
 
     # Combat Script
     for round in battle.rounds:
@@ -44,11 +59,6 @@ def main ():
             # determin what kind of action it is
             if isinstance(action, battleparser.Parser.Log):
                 current_round.append(actions.Log(action.data))
-            elif isinstance(action, battleparser.Parser.Move):
-                # adding the padding here to the position isn't the nicest idea.  
-                # all sprites should probably be rewritten to support nesting like UI widgets.
-                current_round.append(actions.Move(action.reference,
-                    (action.position[0] + display_padding, action.position[1] + display_padding)))
             elif isinstance(action, battleparser.Parser.Fire):
                 current_round.append(actions.Fire(action.source, action.destination))
             elif isinstance(action, battleparser.Parser.Damage):
@@ -57,10 +67,10 @@ def main ():
                 current_round.append(actions.Death(action.reference))
             else:
                 print 'Unknown action', action
-        battle_view.append_round(round.number, current_round)
+        battle_controller.append_round(round.number, current_round)
     
     # Start the battle
-    battle_view.start_battle()
+    event_manager.emit(constants.EVENT_BATTLE_START, 0)
     
     # Event loop
     running = True
@@ -77,7 +87,8 @@ def main ():
                 # Force a redraw if the application comes to the foreground
                 pygame.display.flip()
             
-        # Propigate the update event to our battle view
+        # Call update on the battle view.  Could use an event here,
+        # but it seems like unnessasary MVC purist overkill.
         battle_view.update()
         
         # Sleep the main loop for the desired time

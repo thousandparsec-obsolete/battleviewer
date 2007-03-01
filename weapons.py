@@ -4,13 +4,7 @@ class BasicLaser:
     pulse = 1
     color = (0,0,255)
     surface = None
-    
-    def fire (self, source, destination):
-        pass
-        
-    def draw (self, draw_surface):
-        pass
-        
+
 class Laser2 (BasicLaser):
     width = 3
     duration = 800
@@ -23,7 +17,7 @@ class Laser5 (BasicLaser):
     pulse = 1
     color = (255,128,0)
     
-def new_weapon (label=None):
+def make_weapon (label=None):
     weapon = None
     if label:
         # Create the right kind of weapon, should probably be turned into a LUT somewhere

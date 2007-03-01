@@ -6,6 +6,8 @@ from ocempgui.events import EventManager, INotifyable
 EVENT_ENTITY_NEW = intern ("new entity")
 EVENT_ENTITY_MOVE = intern ("entity move")
 
+# Entity class. Element in battle scene
+
 class Entity (BaseObject):
     def __init__ (self, name):
         BaseObject.__init__(self)
@@ -19,7 +21,9 @@ class Entity (BaseObject):
         if event.signal == EVENT_ENTITY_MOVE:
             if event.data[0] == self.name:
                 self.move(event.data[1])
-        
+
+# BattleView class. Responsible for drawing entities
+
 class BattleView (BaseObject):
     def __init__ (self):
         BaseObject.__init__(self)
@@ -36,6 +40,8 @@ class BattleView (BaseObject):
             self.append_entity(Entity(name))
             self.emit(EVENT_ENTITY_MOVE, (name, position))
             
+# BattleController class.  Responsible for distributing battle events
+
 class BattleController (BaseObject):
     def __init__ (self):
         BaseObject.__init__(self)
@@ -44,7 +50,9 @@ class BattleController (BaseObject):
         entity_list = ['Sam', 'Max', 'Joe']
         for entity_name in entity_list:
             self.emit(EVENT_ENTITY_NEW, (entity_name, (0, 0)))
-        
+
+# Main
+
 if __name__ == '__main__':
     event_manager = EventManager()
     

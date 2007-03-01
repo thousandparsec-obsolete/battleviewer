@@ -34,30 +34,6 @@
 <rounds>
 	<round number="1">
 		<log>Battle between Lee's Super Fleet and Mithro's killer fleet started.</log>
-		<move>
-			<reference ref="battleship-54-1" />
-			<position>0,0</position>
-		</move>
-		<move>
-			<reference ref="battleship-54-2" />
-			<position>128,0</position>
-		</move>
-		<move>
-			<reference ref="planet-23" />
-			<position>256,0</position>
-		</move>
-		<move>
-			<reference ref="scout-59-1" />
-			<position>0, 400</position>
-		</move>
-		<move>
-			<reference ref="battleship-59-2" />
-			<position>128, 400</position>
-		</move>
-		<move>
-			<reference ref="frigate-59-3" />
-			<position>256, 400</position>
-		</move>
 	</round>
 	<round number="2">
 		<log>Lee's fleet chooses rock.</log>

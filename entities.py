@@ -1,13 +1,19 @@
-import pygame, states, math, Numeric, utility
+import pygame, states, math, Numeric, utility, constants
+
+from ocempgui.object import BaseObject
 
 # entities and sprites mixed is a bit messy.  this should be cleaned up.
 
-class BasicEntity (pygame.sprite.Sprite):
+class BasicEntity (BaseObject, pygame.sprite.Sprite):
     states = states.States('idle', 'death')
     state = None
     
     def __init__ (self, side, reference, name, model, weapon=None, weapon_points=[]):
+        BaseObject.__init__(self)
         pygame.sprite.Sprite.__init__(self)
+        
+        self._signals[constants.EVENT_ENTITY_MOVE] = []
+        
         self.side = side
         self.reference = reference
         self.name = name
@@ -15,7 +21,7 @@ class BasicEntity (pygame.sprite.Sprite):
         self.weapon_points = weapon_points
         
         self.death_duration = 1500.0
-        self.visible = False
+        
         self.image = pygame.image.load(model)
         self.rect = pygame.rect.Rect(0, 0, self.image.get_width(), self.image.get_height())
         self.state = self.states.idle
@@ -23,17 +29,19 @@ class BasicEntity (pygame.sprite.Sprite):
         self.framecount = 0
         self.frameskip = 3
         
+    def on_move (self, position):
+        # Update our rect position
+        self.rect.move_ip(position[0], position[1])
+        
+    def notify (self, event):
+        if event.signal == constants.EVENT_ENTITY_MOVE and event.data[0] == self.reference:
+            self.on_move(event.data[1])
+            
     def death (self):
         self.timestamp = pygame.time.get_ticks()
         # Play fancy kill animation!
         self.state = self.states.death
-        
-    def move (self, position):
-        # Display the entity now we have a valid position
-        self.visible = True
-        # Update our rect position
-        self.rect.move_ip(position[0], position[1])
-        
+
     def update (self, ticks):
         if self.state == self.states.death:
             self.framecount += 1
