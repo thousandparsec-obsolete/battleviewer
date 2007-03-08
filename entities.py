@@ -12,8 +12,6 @@ class BasicEntity (BaseObject, pygame.sprite.Sprite):
         BaseObject.__init__(self)
         pygame.sprite.Sprite.__init__(self)
         
-        self._signals[constants.EVENT_ENTITY_MOVE] = []
-        
         self.side = side
         self.reference = reference
         self.name = name
@@ -29,13 +27,12 @@ class BasicEntity (BaseObject, pygame.sprite.Sprite):
         self.framecount = 0
         self.frameskip = 3
         
-    def on_move (self, position):
+    def move (self, position):
         # Update our rect position
         self.rect.move_ip(position[0], position[1])
         
-    def notify (self, event):
-        if event.signal == constants.EVENT_ENTITY_MOVE and event.data[0] == self.reference:
-            self.on_move(event.data[1])
+    #~ def notify (self, event):
+        #~ pass
             
     def death (self):
         self.timestamp = pygame.time.get_ticks()
