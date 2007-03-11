@@ -12,6 +12,11 @@ class BasicEntity (BaseObject, pygame.sprite.Sprite):
         BaseObject.__init__(self)
         pygame.sprite.Sprite.__init__(self)
         
+        self._signals[constants.EVENT_ENTITY_FIRE] = []
+        self._signals[constants.EVENT_ENTITY_DAMAGE] = []
+        self._signals[constants.EVENT_ENTITY_DEATH] = []
+        self._signals[constants.EVENT_ANIMATION_DAMAGE_COMPLETE] = []
+        
         self.side = side
         self.reference = reference
         self.name = name
@@ -27,18 +32,51 @@ class BasicEntity (BaseObject, pygame.sprite.Sprite):
         self.framecount = 0
         self.frameskip = 3
         
+    def on_entity_fire (self, destination_reference):
+        print "on_entity_fire", self.reference, destination_reference
+       #~ source_position = self.entity_list[action.source_reference].get_position()
+        #~ destination_position = self.entity_list[action.destination_reference].get_position()
+        #~ if isinstance(self.entity_list[action.source_reference].weapon, weapons.BasicLaser):
+            #~ # laser weapon
+            #~ laser_entity = entities.LaserBlast(self.entity_list[action.source_reference].weapon, source_position, destination_position)
+            #~ self.spritegroup.add(laser_entity)
+        #~ else:
+            #~ print 'Warning Unknown weapon', self.entity_list[action.source_reference], self.entity_list[action.source_reference].weapon
+
+    def on_entity_damage (self, amount):
+        # must add queue here
+        # listen to entity somehow? rather than passing reference along?
+        entity_instance = DamageAnimation(amount, self.rect.center, 2000, 400)
+        entity_instance.manager = self.manager
+        self.emit(constants.EVENT_ANIMATION_DAMAGE, (entity_instance))
+       
+    def on_entity_death (self):
+        print 'on_entity_death', self.reference
+        
+    def notify (self, event):
+        if event.signal == constants.EVENT_ENTITY_FIRE:
+            if event.data[0] == self.reference:
+                self.on_entity_fire(event.data[1])
+        elif event.signal == constants.EVENT_ENTITY_DAMAGE:
+            if event.data[0] == self.reference:
+                self.on_entity_damage(event.data[1])
+        elif event.signal == constants.EVENT_ANIMATION_DAMAGE_COMPLETE:
+            pass
+            #~ if event.data[0] == self.reference:
+                # check damage queue
+                #~ print 'animation damage complete'
+        elif event.signal == constants.EVENT_ENTITY_DEATH:
+            if event.data[0] == self.reference:
+                self.on_entity_death()
     def move (self, position):
         # Update our rect position
         self.rect.move_ip(position[0], position[1])
         
-    #~ def notify (self, event):
-        #~ pass
-            
     def death (self):
         self.timestamp = pygame.time.get_ticks()
         # Play fancy kill animation!
         self.state = self.states.death
-
+        
     def update (self, ticks):
         if self.state == self.states.death:
             self.framecount += 1
@@ -52,19 +90,14 @@ class BasicEntity (BaseObject, pygame.sprite.Sprite):
                 self.visible = False
                 self.state = self.states.idle
                 self.kill()
-            
-    def get_position (self):
-        return self.rect.center
-        
-    def is_idle (self):
-        return ( self.state == self.states.idle )
 
-class DamageAnimation (pygame.sprite.Sprite):
+class DamageAnimation (BaseObject, pygame.sprite.Sprite):
     states = states.States('waiting', 'animating', 'finished')
     state = None
     font = None
     
     def __init__ (self, damage_amount, position, animation_duration=0, wait_duration=0, font_path='./fonts/'):
+        BaseObject.__init__(self)
         pygame.sprite.Sprite.__init__(self)
         
         if DamageAnimation.font == None:
@@ -75,7 +108,7 @@ class DamageAnimation (pygame.sprite.Sprite):
         self.y = position[1]
         
         shadow_offset = 3
-        text = self.font.render(str(int(damage_amount)), False, (255,255,255)).convert()
+        text = self.font.render(str(int(damage_amount)), False, (255,0,0)).convert()
         shadow = self.font.render(str(int(damage_amount)), False, (50,50,50)).convert()
         self.display_image = pygame.surface.Surface((text.get_width() + shadow_offset,  text.get_height() + shadow_offset), 0, 32).convert_alpha()
         self.display_image.fill((0,0,0,0))
@@ -93,8 +126,7 @@ class DamageAnimation (pygame.sprite.Sprite):
         self.duration = float(animation_duration)
         self.timestamp = pygame.time.get_ticks()
         
-    def is_idle (self):
-        return ( self.state == self.states.finished )
+        self.emit(constants.EVENT_ENTITY_WAIT, 0)
         
     def update (self, ticks):
         if self.state == self.states.waiting:
@@ -102,6 +134,7 @@ class DamageAnimation (pygame.sprite.Sprite):
                 self.timestamp = ticks
                 self.state = self.states.animating
                 self.image = self.display_image
+        
         if self.state == self.states.animating:
             distance = 150
             n = min(1, (ticks - self.timestamp) / self.duration)
@@ -112,6 +145,8 @@ class DamageAnimation (pygame.sprite.Sprite):
             pygame.surfarray.pixels_alpha(self.image)[:,:] = Numeric.multiply(self.original_alpha, 1-n).astype(Numeric.UInt8)
             
             if n == 1:
+                self.emit(constants.EVENT_ANIMATION_DAMAGE_COMPLETE, 0)
+                self.emit(constants.EVENT_ENTITY_READY, 0)
                 self.state = self.states.finished
                 self.kill()
 
@@ -141,9 +176,6 @@ class LaserBlast (pygame.sprite.Sprite):
         
         # Start animation
         self.start_animation()
-        
-    def is_idle (self):
-        return ( self.state == self.states.idle )
 
     def draw_laser (self):
         

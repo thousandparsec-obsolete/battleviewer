@@ -9,11 +9,16 @@ class BattleView (BaseObject):
     def __init__ (self, display_surface):
         BaseObject.__init__(self)
         
-        self._signals[constants.EVENT_MESSAGE] = []
-        self._signals[constants.EVENT_ENTITY_NEW] = []
-        self._signals[constants.EVENT_ENTITY_WAIT] = []
-        self._signals[constants.EVENT_ENTITY_READY] = []
-        self._signals[constants.EVENT_BATTLE_START] = []
+        # Set up list of signals to listen for
+        for signal in (constants.EVENT_ROUND_START,
+                        constants.EVENT_MESSAGE,
+                        constants.EVENT_ENTITY_NEW,
+                        constants.EVENT_ENTITY_WAIT,
+                        constants.EVENT_ENTITY_READY,
+                        constants.EVENT_BATTLE_START,
+                        constants.EVENT_ANIMATION_LASER,
+                        constants.EVENT_ANIMATION_DAMAGE):
+            self._signals[signal] = []
         
         # Initialize the display
         self.display_surface = display_surface
@@ -64,6 +69,9 @@ class BattleView (BaseObject):
     def on_entity_ready (self):
         self.waiting_counter -= 1
     
+    def on_round_start (self):
+        self.state = BattleView.states.waiting
+        
     def on_battle_start (self):
         # start waiting. must do this first incase on_entity_wait is called
         self.state = BattleView.states.waiting
@@ -93,9 +101,17 @@ class BattleView (BaseObject):
         # start waiting. must do this first incase on_entity_wait is called
         self.state = BattleView.states.waiting
         self.waiting_counter = 0
+    
+    def on_animation_laser (self, animation_instance):
+        self.laser_group.add(animation_instance)
+        
+    def on_animation_damage (self, animation_instance):
+        self.damage_group.add(animation_instance)
         
     def notify (self, event):
-        if event.signal == constants.EVENT_MESSAGE:
+        if event.signal == constants.EVENT_ROUND_START:
+            self.on_round_start()
+        elif event.signal == constants.EVENT_MESSAGE:
             self.on_message(event.data)
         elif event.signal == constants.EVENT_ENTITY_NEW:
             self.on_entity_new(event.data)
@@ -105,6 +121,10 @@ class BattleView (BaseObject):
             self.on_entity_wait()
         elif event.signal == constants.EVENT_ENTITY_READY:
             self.on_entity_ready()
+        elif event.signal == constants.EVENT_ANIMATION_LASER:
+            self.on_animation_laser(event.data)
+        elif event.signal == constants.EVENT_ANIMATION_DAMAGE:
+            self.on_animation_damage(event.data)
             
     def append_round (self, round_label, action_list):
         if self.verbose: print 'Added new round with',len(action_list),'actions.'

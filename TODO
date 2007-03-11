@@ -4,3 +4,4 @@
 * Prerender of all surfarray effects to improve cpu performance.
 * Remove actions in place for queued eventmanager events
 * Use config file to store many of the constants in viewer
+* First round / battlestart round ship entrance/warp in animations
