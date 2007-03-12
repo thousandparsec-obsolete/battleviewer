@@ -1,0 +1,12 @@
+Installing Battleviewer
+
+    Dependancies
+
+    - Pygame
+    Python SDL wrapper. http://www.pygame.org/news.html
+    
+    - ElementTree
+    XML Container. http://effbot.org/zone/element-index.htm
+    
+    - OcempGUI
+    Python GUI and Event framework for pygame. http://ocemp.sourceforge.net/gui.html

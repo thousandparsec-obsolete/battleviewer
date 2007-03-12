@@ -69,7 +69,7 @@ def main ():
                 print 'Unknown action', action
         battle_controller.append_round(round.number, current_round)
     
-    # Start the battle
+    # Start the battle.  Event gets propigated in order of addition to event manager (controller then view).
     event_manager.emit(constants.EVENT_BATTLE_START, 0)
     
     # Event loop
