@@ -120,7 +120,7 @@ class Message (BaseObject, pygame.sprite.Sprite):
         
         if Message.font == None:
             # Bitstream Vera Sans Mono
-            Message.font = pygame.font.Font(font_path+'VeraMoBd.ttf', 12)
+            Message.font = pygame.font.Font(font_path+'VeraMoBd.ttf', 18)
             
         # Increment the number of messages being displayed
         if Message.message_count == None:
@@ -143,7 +143,7 @@ class Message (BaseObject, pygame.sprite.Sprite):
         
         display_geometery = pygame.display.get_surface().get_rect()
         x = (display_geometery.width - self.image.get_width()) / 2
-        y = (display_geometery.height - self.image.get_height()) / 2 + (self.image.get_height() * Message.message_count)
+        y = (display_geometery.height - self.image.get_height()) / 2 + (self.image.get_height() * Message.message_count-1)
         
         self.rect = pygame.rect.Rect(x, y, self.image.get_width(), self.image.get_height())
         
@@ -178,7 +178,8 @@ class DamageAnimation (BaseObject, pygame.sprite.Sprite):
             # Bitstream Vera Sans Mono
             DamageAnimation.font = pygame.font.Font(font_path+'VeraMoBd.ttf', 18)
         
-        self.manager = manager
+        if manager:
+            self.manager = manager
         
         self.x = position[0]
         self.y = position[1]
