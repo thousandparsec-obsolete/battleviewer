@@ -120,7 +120,7 @@ class Message (BaseObject, pygame.sprite.Sprite):
         
         if Message.font == None:
             # Bitstream Vera Sans Mono
-            Message.font = pygame.font.Font(font_path+'VeraMoBd.ttf', 18)
+            Message.font = pygame.font.Font(font_path+'VeraMoBd.ttf', 12)
             
         # Increment the number of messages being displayed
         if Message.message_count == None:
@@ -132,8 +132,8 @@ class Message (BaseObject, pygame.sprite.Sprite):
         self.manager = manager
         
         shadow_offset = 3
-        text = Message.font.render(message, False, (200,200,200)).convert()
-        shadow = Message.font.render(message, False, (50,50,50)).convert()
+        text = Message.font.render(message, True, (200,200,200)).convert_alpha()
+        shadow = Message.font.render(message, True, (50,50,50)).convert_alpha()
         
         self.image = pygame.surface.Surface(
             (text.get_width() + shadow_offset,  text.get_height() + shadow_offset), 0, 32).convert_alpha()
@@ -143,7 +143,7 @@ class Message (BaseObject, pygame.sprite.Sprite):
         
         display_geometery = pygame.display.get_surface().get_rect()
         x = (display_geometery.width - self.image.get_width()) / 2
-        y = (display_geometery.height - self.image.get_height()) / 2 + (self.image.get_height() * Message.message_count-1)
+        y = (display_geometery.height - self.image.get_height()) / 2 + (self.image.get_height() * (Message.message_count-1))
         
         self.rect = pygame.rect.Rect(x, y, self.image.get_width(), self.image.get_height())
         
