@@ -18,11 +18,12 @@ def main ():
     pygame.display.set_caption('Battle Viewer')
     
     # Desired delay between frame redraws (25 fps target framerate)
-    frame_rate = 25
+    frame_rate = 24
     
     # Create the display
     display_padding = 12
-    display_size = (display_padding*2 + 128*3, display_padding*2 + 400+128)
+    # Values are hacked for specific XML, needs to be made generic in future
+    display_size = (display_padding*2 + 128*4, display_padding*3 + 400+128)
     display_depth = 24
     display_surface = pygame.display.set_mode(display_size, 0, display_depth)
     

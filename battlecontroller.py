@@ -19,7 +19,6 @@ class BattleController (BaseObject):
         self.round_timestamp = None
         
     def on_battle_start (self):
-        
         # Current round
         self.round = 0
         
@@ -40,8 +39,7 @@ class BattleController (BaseObject):
     def append_entity (self, side, reference, name='', model=None, weapon_label=None, weapon_points=[]):
         if not self.entity_list.has_key(reference):
             weapon = weapons.make_weapon(weapon_label)
-            entity = entities.BasicEntity(side, reference, name, model, weapon, weapon_points)
-            entity.manager = self.manager
+            entity = entities.BasicEntity(self.manager, side, reference, name, model, weapon, weapon_points)
             self.entity_list[reference] = entity
             self.emit(constants.EVENT_ENTITY_NEW, entity)
         else:
@@ -62,7 +60,7 @@ class BattleController (BaseObject):
             if isinstance(action, actions.Log):
                 self.emit(constants.EVENT_MESSAGE, (action.message))
             elif isinstance(action, actions.Fire):
-                self.emit(constants.EVENT_ENTITY_FIRE, (action.source_reference, action.destination_reference))
+                self.emit(constants.EVENT_ENTITY_FIRE, (action.source_reference, self.entity_list[action.destination_reference]))
             elif isinstance(action, actions.Damage):
                 self.emit(constants.EVENT_ENTITY_DAMAGE, (action.reference, action.amount))
             elif isinstance(action, actions.Death):

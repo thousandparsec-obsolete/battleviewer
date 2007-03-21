@@ -1,4 +1,4 @@
-import pygame, weapons, entities, utility, constants, states
+import pygame, entities, utility, constants, states
 
 from ocempgui.object import BaseObject
 
@@ -38,6 +38,9 @@ class BattleView (BaseObject):
         # Update the whole display
         pygame.display.flip()
         
+        # Sprite group for drawing all messages
+        self.message_group = pygame.sprite.RenderUpdates()
+        
         # Sprite group for drawing all entities
         self.entity_group = pygame.sprite.RenderUpdates()
         
@@ -59,6 +62,7 @@ class BattleView (BaseObject):
         
     def on_message (self, message):
         print "'" + str(message) + "'"
+        self.message_group.add(entities.Message(self.manager, str(message)))
         
     def on_entity_new (self, entity_instance):
         self.entity_group.add(entity_instance)
@@ -87,15 +91,18 @@ class BattleView (BaseObject):
         # right now will only work with 2 fleets until a suitable algo is decided upon
         # probably use a circle! send events to your brothers and parents, not to your children!
         
+        y_padding = 64
+        x_padding = 64
+        
         entity_size = 138
-        y = 0
+        y = y_padding
         for side in sides.values():
-            x = 0
+            x = x_padding
             for entity in side:
                 entity.move((x, y))
                 # add warp-in code here
                 x += entity_size
-            y += self.display_surface.get_height() - entity_size
+            y += self.display_surface.get_height() - (y_padding * 2) - entity_size
         
     def on_start_round (self, data):
         # start waiting. must do this first incase on_entity_wait is called
@@ -103,7 +110,7 @@ class BattleView (BaseObject):
         self.waiting_counter = 0
     
     def on_animation_laser (self, animation_instance):
-        self.laser_group.add(animation_instance)
+        self.weapon_group.add(animation_instance)
         
     def on_animation_damage (self, animation_instance):
         self.damage_group.add(animation_instance)
@@ -138,11 +145,13 @@ class BattleView (BaseObject):
         self.entity_group.update(now)
         self.weapon_group.update(now)
         self.damage_group.update(now)
+        self.message_group.update(now)
         
         # Redraw sprites
         rectlist = self.entity_group.draw(self.display_surface)
         rectlist += self.weapon_group.draw(self.display_surface)
         rectlist += self.damage_group.draw(self.display_surface)
+        rectlist += self.message_group.draw(self.display_surface)
         
         # Update the surface
         pygame.display.update(rectlist)
@@ -151,6 +160,7 @@ class BattleView (BaseObject):
         self.entity_group.clear(self.display_surface, self.background_surface)
         self.weapon_group.clear(self.display_surface, self.background_surface)
         self.damage_group.clear(self.display_surface, self.background_surface)
+        self.message_group.clear(self.display_surface, self.background_surface)
         
         if self.state == BattleView.states.waiting and self.waiting_counter == 0:
             if self.round_timestamp == None:

@@ -1,7 +1,8 @@
 * Address the pygame Sprite Group Z-Depth problem. Right now sprites and lasers are being drawn in arbitrary z-order.
 * Event Dispatch system. This will allow entities to trigger animations and UI widgets to receive input events.
-* Queued Animation effects. Then Damage Numbers and Damage Animations can be dispatched in sequence.
 * Prerender of all surfarray effects to improve cpu performance.
 * Remove actions in place for queued eventmanager events
 * Use config file to store many of the constants in viewer
-* First round / battlestart round ship entrance/warp in animations
+* battle start round ship entrance/warp in animations
+* battle start circular placement
+* Use timers for damage animations instead of animating them in sequence
