@@ -3,7 +3,7 @@ import constants, actions, weapons, entities
 
 class BattleController (BaseObject):
     
-    verbose = True
+    verbose = False
     
     def __init__ (self):
         BaseObject.__init__(self)
@@ -23,7 +23,7 @@ class BattleController (BaseObject):
         self.round = 0
         
     def on_view_ready (self):
-        print 'view ready'
+        if self.verbose: print 'view ready'
         self.next_round()
         
     def notify (self, event):

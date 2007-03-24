@@ -3,7 +3,7 @@ import pygame, entities, utility, constants, states
 from ocempgui.object import BaseObject
 
 class BattleView (BaseObject):
-    verbose = True
+    verbose = False
     states = states.States('ready', 'waiting')
     
     def __init__ (self, display_surface):
@@ -61,16 +61,16 @@ class BattleView (BaseObject):
         self.state = BattleView.states.ready
         
     def on_message (self, message):
-        print "'" + str(message) + "'"
+        if self.verbose: print "'" + str(message) + "'"
         self.message_group.add(entities.Message(self.manager, str(message)))
         
     def on_entity_new (self, entity_instance):
         self.entity_group.add(entity_instance)
 
-    def on_entity_wait (self):
+    def on_entity_wait (self, entity_ref):
         self.waiting_counter += 1
         
-    def on_entity_ready (self):
+    def on_entity_ready (self, entity_ref):
         self.waiting_counter -= 1
     
     def on_round_start (self):
@@ -125,9 +125,9 @@ class BattleView (BaseObject):
         elif event.signal == constants.EVENT_BATTLE_START:
             self.on_battle_start()
         elif event.signal == constants.EVENT_ENTITY_WAIT:
-            self.on_entity_wait()
+            self.on_entity_wait(event.data)
         elif event.signal == constants.EVENT_ENTITY_READY:
-            self.on_entity_ready()
+            self.on_entity_ready(event.data)
         elif event.signal == constants.EVENT_ANIMATION_LASER:
             self.on_animation_laser(event.data)
         elif event.signal == constants.EVENT_ANIMATION_DAMAGE:

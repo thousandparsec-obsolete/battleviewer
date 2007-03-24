@@ -38,6 +38,7 @@ class BattleMedia(object):
 
 	def weaponpoints_set(self, value):
 		points = []
+		print 'weaponpoints_set',value
 		for weaponpoint in value:
 			if weaponpoint.tag.strip() != "pixel":
 				raise TypeError("Weapon Points must list pixels.")
