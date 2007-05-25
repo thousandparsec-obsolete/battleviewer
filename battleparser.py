@@ -145,7 +145,7 @@ class Parser(object):
 		Log Action. Takes a single message which it displays in the log window.
 		"""
 		def __init__(self, text=""):
-			self.data = text
+			self.text = text
 		def __repr__(self):
 			return "<Log '%s'>" % (self.text,)
 
