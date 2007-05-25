@@ -1,11 +1,11 @@
 <battle media="minisec" version="0.0.1">
   <sides>
-    <side name="tim">
+    <side id="tim">
       <entity id="tim-homeworld-0">
         <name>tim-homeworld-0</name>
         <type>homeworld</type>
       </entity>
-    </side><side name="lee">
+    </side><side id="lee">
       <entity id="lee-frigate-0">
         <name>lee-frigate-0</name>
         <type>frigate</type>
@@ -15,13 +15,26 @@
       </entity>
     </side>
   </sides><rounds>
-    <round no="0">
-      <log>lee choose Rock.</log>
-      <log>tim choose Rock.</log>
-      <log>Round was a draw!</log>
-    </round><round no="1">
-      <log>lee choose Rock.</log>
+    <round number="0">
       <log>tim choose Paper.</log>
+      <log>lee choose Scissors.</log>
+      <log>lee won the round!</log>
+      <fire>
+        <source ref="lee-frigate-0" />
+        <destination ref="tim-homeworld-0" />
+      </fire><damage>
+        <reference ref="tim-homeworld-0" />
+        <amount>2</amount>
+      </damage><fire>
+        <source ref="lee-frigate-1" />
+        <destination ref="tim-homeworld-0" />
+      </fire><damage>
+        <reference ref="tim-homeworld-0" />
+        <amount>2</amount>
+      </damage>
+    </round><round number="1">
+      <log>lee choose Scissors.</log>
+      <log>tim choose Rock.</log>
       <log>tim won the round!</log>
       <fire>
         <source ref="tim-homeworld-0" />
@@ -43,7 +56,12 @@
         <amount>3</amount>
       </damage><death>
         <reference ref="lee-frigate-0" />
-      </death><fire>
+      </death>
+    </round><round number="2">
+      <log>lee choose Scissors.</log>
+      <log>tim choose Paper.</log>
+      <log>tim won the round!</log>
+      <fire>
         <source ref="tim-homeworld-0" />
         <destination ref="lee-frigate-1" />
       </fire><damage>

@@ -1,6 +1,6 @@
 <battle media="minisec" version="0.0.1">
   <sides>
-    <side name="tim">
+    <side id="tim">
       <entity id="tim-battleship-0">
         <name>tim-battleship-0</name>
         <type>battleship</type>
@@ -11,7 +11,7 @@
         <name>tim-battleship-2</name>
         <type>battleship</type>
       </entity>
-    </side><side name="lee">
+    </side><side id="lee">
       <entity id="lee-frigate-0">
         <name>lee-frigate-0</name>
         <type>frigate</type>
@@ -28,62 +28,53 @@
         <name>lee-frigate-4</name>
         <type>frigate</type>
       </entity>
-    </side><side name="jlp">
+    </side><side id="jlp">
       <entity id="jlp-battleship-0">
         <name>jlp-battleship-0</name>
         <type>battleship</type>
       </entity>
     </side>
   </sides><rounds>
-    <round no="0">
-      <log>tim choose Paper.</log>
-      <log>jlp choose Paper.</log>
-      <log>Round was a draw!</log>
+    <round number="0">
+      <log>jlp choose Rock.</log>
+      <log>lee choose Scissors.</log>
+      <log>lee won the round!</log>
       <fire>
-        <source ref="tim-battleship-0" />
+        <source ref="lee-frigate-0" />
         <destination ref="jlp-battleship-0" />
       </fire><damage>
         <reference ref="jlp-battleship-0" />
-        <amount>1</amount>
+        <amount>2</amount>
       </damage><fire>
-        <source ref="tim-battleship-1" />
+        <source ref="lee-frigate-1" />
         <destination ref="jlp-battleship-0" />
       </fire><damage>
         <reference ref="jlp-battleship-0" />
-        <amount>1</amount>
+        <amount>2</amount>
       </damage><fire>
-        <source ref="tim-battleship-2" />
+        <source ref="lee-frigate-2" />
         <destination ref="jlp-battleship-0" />
       </fire><damage>
         <reference ref="jlp-battleship-0" />
-        <amount>1</amount>
-      </damage><fire>
-        <source ref="jlp-battleship-0" />
-        <destination ref="tim-battleship-0" />
-      </fire><damage>
-        <reference ref="tim-battleship-0" />
-        <amount>1</amount>
-      </damage>
-    </round><round no="1">
-      <log>jlp choose Scissors.</log>
-      <log>tim choose Paper.</log>
-      <log>tim won the round!</log>
-      <fire>
-        <source ref="tim-battleship-0" />
-        <destination ref="jlp-battleship-0" />
-      </fire><damage>
-        <reference ref="jlp-battleship-0" />
-        <amount>3</amount>
+        <amount>2</amount>
       </damage><death>
         <reference ref="jlp-battleship-0" />
       </death><log>jlp was knocked out of the battle.</log>
-    </round><round no="2">
-      <log>lee choose Paper.</log>
-      <log>tim choose Paper.</log>
+    </round><round number="1">
+      <log>lee choose Scissors.</log>
+      <log>tim choose Scissors.</log>
       <log>Round was a draw!</log>
-    </round><round no="3">
+    </round><round number="2">
+      <log>tim choose Scissors.</log>
+      <log>lee choose Scissors.</log>
+      <log>Round was a draw!</log>
+    </round><round number="3">
       <log>tim choose Rock.</log>
-      <log>lee choose Paper.</log>
+      <log>lee choose Rock.</log>
+      <log>Round was a draw!</log>
+    </round><round number="4">
+      <log>lee choose Rock.</log>
+      <log>tim choose Scissors.</log>
       <log>tim won the round!</log>
       <fire>
         <source ref="tim-battleship-0" />
@@ -104,43 +95,12 @@
         <reference ref="lee-frigate-2" />
         <amount>3</amount>
       </damage>
-    </round><round no="4">
-      <log>tim choose Scissors.</log>
+    </round><round number="5">
       <log>lee choose Rock.</log>
-      <log>lee won the round!</log>
-      <fire>
-        <source ref="lee-frigate-0" />
-        <destination ref="tim-battleship-1" />
-      </fire><damage>
-        <reference ref="tim-battleship-1" />
-        <amount>2</amount>
-      </damage><fire>
-        <source ref="lee-frigate-1" />
-        <destination ref="tim-battleship-2" />
-      </fire><damage>
-        <reference ref="tim-battleship-2" />
-        <amount>2</amount>
-      </damage><fire>
-        <source ref="lee-frigate-2" />
-        <destination ref="tim-battleship-0" />
-      </fire><damage>
-        <reference ref="tim-battleship-0" />
-        <amount>2</amount>
-      </damage><fire>
-        <source ref="lee-frigate-3" />
-        <destination ref="tim-battleship-1" />
-      </fire><damage>
-        <reference ref="tim-battleship-1" />
-        <amount>2</amount>
-      </damage><fire>
-        <source ref="lee-frigate-4" />
-        <destination ref="tim-battleship-2" />
-      </fire><damage>
-        <reference ref="tim-battleship-2" />
-        <amount>2</amount>
-      </damage>
-    </round><round no="5">
-      <log>lee choose Paper.</log>
+      <log>tim choose Rock.</log>
+      <log>Round was a draw!</log>
+    </round><round number="6">
+      <log>lee choose Scissors.</log>
       <log>tim choose Rock.</log>
       <log>tim won the round!</log>
       <fire>
@@ -164,9 +124,50 @@
       </damage><death>
         <reference ref="lee-frigate-0" />
       </death>
-    </round><round no="6">
+    </round><round number="7">
       <log>lee choose Rock.</log>
+      <log>tim choose Rock.</log>
+      <log>Round was a draw!</log>
+    </round><round number="8">
       <log>tim choose Paper.</log>
+      <log>lee choose Paper.</log>
+      <log>Round was a draw!</log>
+    </round><round number="9">
+      <log>tim choose Paper.</log>
+      <log>lee choose Rock.</log>
+      <log>lee won the round!</log>
+      <fire>
+        <source ref="lee-frigate-0" />
+        <destination ref="tim-battleship-0" />
+      </fire><damage>
+        <reference ref="tim-battleship-0" />
+        <amount>2</amount>
+      </damage><fire>
+        <source ref="lee-frigate-1" />
+        <destination ref="tim-battleship-1" />
+      </fire><damage>
+        <reference ref="tim-battleship-1" />
+        <amount>2</amount>
+      </damage><fire>
+        <source ref="lee-frigate-2" />
+        <destination ref="tim-battleship-2" />
+      </fire><damage>
+        <reference ref="tim-battleship-2" />
+        <amount>2</amount>
+      </damage><fire>
+        <source ref="lee-frigate-3" />
+        <destination ref="tim-battleship-0" />
+      </fire><damage>
+        <reference ref="tim-battleship-0" />
+        <amount>2</amount>
+      </damage>
+    </round><round number="10">
+      <log>tim choose Rock.</log>
+      <log>lee choose Rock.</log>
+      <log>Round was a draw!</log>
+    </round><round number="11">
+      <log>lee choose Paper.</log>
+      <log>tim choose Rock.</log>
       <log>tim won the round!</log>
       <fire>
         <source ref="tim-battleship-0" />
@@ -193,15 +194,29 @@
       </damage><death>
         <reference ref="lee-frigate-3" />
       </death>
-    </round><round no="7">
-      <log>tim choose Rock.</log>
-      <log>lee choose Rock.</log>
-      <log>Round was a draw!</log>
-    </round><round no="8">
+    </round><round number="12">
+      <log>tim choose Scissors.</log>
       <log>lee choose Paper.</log>
+      <log>lee won the round!</log>
+      <fire>
+        <source ref="lee-frigate-0" />
+        <destination ref="tim-battleship-1" />
+      </fire><damage>
+        <reference ref="tim-battleship-1" />
+        <amount>2</amount>
+      </damage>
+    </round><round number="13">
       <log>tim choose Paper.</log>
-      <log>Round was a draw!</log>
-    </round><round no="9">
+      <log>lee choose Scissors.</log>
+      <log>lee won the round!</log>
+      <fire>
+        <source ref="lee-frigate-0" />
+        <destination ref="tim-battleship-2" />
+      </fire><damage>
+        <reference ref="tim-battleship-2" />
+        <amount>2</amount>
+      </damage>
+    </round><round number="14">
       <log>lee choose Paper.</log>
       <log>tim choose Scissors.</log>
       <log>tim won the round!</log>

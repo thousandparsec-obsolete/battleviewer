@@ -1,6 +1,6 @@
 <battle media="minisec" version="0.0.1">
   <sides>
-    <side name="tim">
+    <side id="tim">
       <entity id="tim-battleship-0">
         <name>tim-battleship-0</name>
         <type>battleship</type>
@@ -17,7 +17,7 @@
         <name>tim-battleship-4</name>
         <type>battleship</type>
       </entity>
-    </side><side name="lee">
+    </side><side id="lee">
       <entity id="lee-battleship-0">
         <name>lee-battleship-0</name>
         <type>battleship</type>
@@ -34,7 +34,7 @@
         <name>lee-battleship-4</name>
         <type>battleship</type>
       </entity>
-    </side><side name="jlp">
+    </side><side id="jlp">
       <entity id="jlp-battleship-0">
         <name>jlp-battleship-0</name>
         <type>battleship</type>
@@ -53,138 +53,8 @@
       </entity>
     </side>
   </sides><rounds>
-    <round no="0">
+    <round number="0">
       <log>lee choose Paper.</log>
-      <log>tim choose Paper.</log>
-      <log>Round was a draw!</log>
-      <fire>
-        <source ref="lee-battleship-0" />
-        <destination ref="tim-battleship-0" />
-      </fire><damage>
-        <reference ref="tim-battleship-0" />
-        <amount>1</amount>
-      </damage><fire>
-        <source ref="lee-battleship-1" />
-        <destination ref="tim-battleship-1" />
-      </fire><damage>
-        <reference ref="tim-battleship-1" />
-        <amount>1</amount>
-      </damage><fire>
-        <source ref="lee-battleship-2" />
-        <destination ref="tim-battleship-2" />
-      </fire><damage>
-        <reference ref="tim-battleship-2" />
-        <amount>1</amount>
-      </damage><fire>
-        <source ref="lee-battleship-3" />
-        <destination ref="tim-battleship-3" />
-      </fire><damage>
-        <reference ref="tim-battleship-3" />
-        <amount>1</amount>
-      </damage><fire>
-        <source ref="lee-battleship-4" />
-        <destination ref="tim-battleship-4" />
-      </fire><damage>
-        <reference ref="tim-battleship-4" />
-        <amount>1</amount>
-      </damage><fire>
-        <source ref="tim-battleship-0" />
-        <destination ref="lee-battleship-0" />
-      </fire><damage>
-        <reference ref="lee-battleship-0" />
-        <amount>1</amount>
-      </damage><fire>
-        <source ref="tim-battleship-1" />
-        <destination ref="lee-battleship-1" />
-      </fire><damage>
-        <reference ref="lee-battleship-1" />
-        <amount>1</amount>
-      </damage><fire>
-        <source ref="tim-battleship-2" />
-        <destination ref="lee-battleship-2" />
-      </fire><damage>
-        <reference ref="lee-battleship-2" />
-        <amount>1</amount>
-      </damage><fire>
-        <source ref="tim-battleship-3" />
-        <destination ref="lee-battleship-3" />
-      </fire><damage>
-        <reference ref="lee-battleship-3" />
-        <amount>1</amount>
-      </damage><fire>
-        <source ref="tim-battleship-4" />
-        <destination ref="lee-battleship-4" />
-      </fire><damage>
-        <reference ref="lee-battleship-4" />
-        <amount>1</amount>
-      </damage>
-    </round><round no="1">
-      <log>jlp choose Scissors.</log>
-      <log>tim choose Scissors.</log>
-      <log>Round was a draw!</log>
-      <fire>
-        <source ref="jlp-battleship-0" />
-        <destination ref="tim-battleship-0" />
-      </fire><damage>
-        <reference ref="tim-battleship-0" />
-        <amount>1</amount>
-      </damage><fire>
-        <source ref="jlp-battleship-1" />
-        <destination ref="tim-battleship-1" />
-      </fire><damage>
-        <reference ref="tim-battleship-1" />
-        <amount>1</amount>
-      </damage><fire>
-        <source ref="jlp-battleship-2" />
-        <destination ref="tim-battleship-2" />
-      </fire><damage>
-        <reference ref="tim-battleship-2" />
-        <amount>1</amount>
-      </damage><fire>
-        <source ref="jlp-battleship-3" />
-        <destination ref="tim-battleship-3" />
-      </fire><damage>
-        <reference ref="tim-battleship-3" />
-        <amount>1</amount>
-      </damage><fire>
-        <source ref="jlp-battleship-4" />
-        <destination ref="tim-battleship-4" />
-      </fire><damage>
-        <reference ref="tim-battleship-4" />
-        <amount>1</amount>
-      </damage><fire>
-        <source ref="tim-battleship-0" />
-        <destination ref="jlp-battleship-0" />
-      </fire><damage>
-        <reference ref="jlp-battleship-0" />
-        <amount>1</amount>
-      </damage><fire>
-        <source ref="tim-battleship-1" />
-        <destination ref="jlp-battleship-1" />
-      </fire><damage>
-        <reference ref="jlp-battleship-1" />
-        <amount>1</amount>
-      </damage><fire>
-        <source ref="tim-battleship-2" />
-        <destination ref="jlp-battleship-2" />
-      </fire><damage>
-        <reference ref="jlp-battleship-2" />
-        <amount>1</amount>
-      </damage><fire>
-        <source ref="tim-battleship-3" />
-        <destination ref="jlp-battleship-3" />
-      </fire><damage>
-        <reference ref="jlp-battleship-3" />
-        <amount>1</amount>
-      </damage><fire>
-        <source ref="tim-battleship-4" />
-        <destination ref="jlp-battleship-4" />
-      </fire><damage>
-        <reference ref="jlp-battleship-4" />
-        <amount>1</amount>
-      </damage>
-    </round><round no="2">
-      <log>lee choose Scissors.</log>
       <log>tim choose Rock.</log>
       <log>tim won the round!</log>
       <fire>
@@ -218,7 +88,7 @@
         <reference ref="lee-battleship-4" />
         <amount>3</amount>
       </damage>
-    </round><round no="3">
+    </round><round number="1">
       <log>tim choose Paper.</log>
       <log>jlp choose Paper.</log>
       <log>Round was a draw!</log>
@@ -283,7 +153,172 @@
         <reference ref="tim-battleship-4" />
         <amount>1</amount>
       </damage>
-    </round><round no="4">
+    </round><round number="2">
+      <log>lee choose Rock.</log>
+      <log>jlp choose Rock.</log>
+      <log>Round was a draw!</log>
+      <fire>
+        <source ref="lee-battleship-0" />
+        <destination ref="jlp-battleship-0" />
+      </fire><damage>
+        <reference ref="jlp-battleship-0" />
+        <amount>1</amount>
+      </damage><fire>
+        <source ref="lee-battleship-1" />
+        <destination ref="jlp-battleship-1" />
+      </fire><damage>
+        <reference ref="jlp-battleship-1" />
+        <amount>1</amount>
+      </damage><fire>
+        <source ref="lee-battleship-2" />
+        <destination ref="jlp-battleship-2" />
+      </fire><damage>
+        <reference ref="jlp-battleship-2" />
+        <amount>1</amount>
+      </damage><fire>
+        <source ref="lee-battleship-3" />
+        <destination ref="jlp-battleship-3" />
+      </fire><damage>
+        <reference ref="jlp-battleship-3" />
+        <amount>1</amount>
+      </damage><fire>
+        <source ref="lee-battleship-4" />
+        <destination ref="jlp-battleship-4" />
+      </fire><damage>
+        <reference ref="jlp-battleship-4" />
+        <amount>1</amount>
+      </damage><fire>
+        <source ref="jlp-battleship-0" />
+        <destination ref="lee-battleship-0" />
+      </fire><damage>
+        <reference ref="lee-battleship-0" />
+        <amount>1</amount>
+      </damage><fire>
+        <source ref="jlp-battleship-1" />
+        <destination ref="lee-battleship-1" />
+      </fire><damage>
+        <reference ref="lee-battleship-1" />
+        <amount>1</amount>
+      </damage><fire>
+        <source ref="jlp-battleship-2" />
+        <destination ref="lee-battleship-2" />
+      </fire><damage>
+        <reference ref="lee-battleship-2" />
+        <amount>1</amount>
+      </damage><fire>
+        <source ref="jlp-battleship-3" />
+        <destination ref="lee-battleship-3" />
+      </fire><damage>
+        <reference ref="lee-battleship-3" />
+        <amount>1</amount>
+      </damage><fire>
+        <source ref="jlp-battleship-4" />
+        <destination ref="lee-battleship-4" />
+      </fire><damage>
+        <reference ref="lee-battleship-4" />
+        <amount>1</amount>
+      </damage>
+    </round><round number="3">
+      <log>tim choose Rock.</log>
+      <log>lee choose Scissors.</log>
+      <log>lee won the round!</log>
+      <fire>
+        <source ref="lee-battleship-0" />
+        <destination ref="tim-battleship-0" />
+      </fire><damage>
+        <reference ref="tim-battleship-0" />
+        <amount>3</amount>
+      </damage><fire>
+        <source ref="lee-battleship-1" />
+        <destination ref="tim-battleship-1" />
+      </fire><damage>
+        <reference ref="tim-battleship-1" />
+        <amount>3</amount>
+      </damage><fire>
+        <source ref="lee-battleship-2" />
+        <destination ref="tim-battleship-2" />
+      </fire><damage>
+        <reference ref="tim-battleship-2" />
+        <amount>3</amount>
+      </damage><fire>
+        <source ref="lee-battleship-3" />
+        <destination ref="tim-battleship-3" />
+      </fire><damage>
+        <reference ref="tim-battleship-3" />
+        <amount>3</amount>
+      </damage><fire>
+        <source ref="lee-battleship-4" />
+        <destination ref="tim-battleship-4" />
+      </fire><damage>
+        <reference ref="tim-battleship-4" />
+        <amount>3</amount>
+      </damage>
+    </round><round number="4">
+      <log>jlp choose Rock.</log>
+      <log>tim choose Rock.</log>
+      <log>Round was a draw!</log>
+      <fire>
+        <source ref="jlp-battleship-0" />
+        <destination ref="tim-battleship-0" />
+      </fire><damage>
+        <reference ref="tim-battleship-0" />
+        <amount>1</amount>
+      </damage><fire>
+        <source ref="jlp-battleship-1" />
+        <destination ref="tim-battleship-1" />
+      </fire><damage>
+        <reference ref="tim-battleship-1" />
+        <amount>1</amount>
+      </damage><fire>
+        <source ref="jlp-battleship-2" />
+        <destination ref="tim-battleship-2" />
+      </fire><damage>
+        <reference ref="tim-battleship-2" />
+        <amount>1</amount>
+      </damage><fire>
+        <source ref="jlp-battleship-3" />
+        <destination ref="tim-battleship-3" />
+      </fire><damage>
+        <reference ref="tim-battleship-3" />
+        <amount>1</amount>
+      </damage><fire>
+        <source ref="jlp-battleship-4" />
+        <destination ref="tim-battleship-4" />
+      </fire><damage>
+        <reference ref="tim-battleship-4" />
+        <amount>1</amount>
+      </damage><fire>
+        <source ref="tim-battleship-0" />
+        <destination ref="jlp-battleship-0" />
+      </fire><damage>
+        <reference ref="jlp-battleship-0" />
+        <amount>1</amount>
+      </damage><fire>
+        <source ref="tim-battleship-1" />
+        <destination ref="jlp-battleship-1" />
+      </fire><damage>
+        <reference ref="jlp-battleship-1" />
+        <amount>1</amount>
+      </damage><fire>
+        <source ref="tim-battleship-2" />
+        <destination ref="jlp-battleship-2" />
+      </fire><damage>
+        <reference ref="jlp-battleship-2" />
+        <amount>1</amount>
+      </damage><fire>
+        <source ref="tim-battleship-3" />
+        <destination ref="jlp-battleship-3" />
+      </fire><damage>
+        <reference ref="jlp-battleship-3" />
+        <amount>1</amount>
+      </damage><fire>
+        <source ref="tim-battleship-4" />
+        <destination ref="jlp-battleship-4" />
+      </fire><damage>
+        <reference ref="jlp-battleship-4" />
+        <amount>1</amount>
+      </damage>
+    </round><round number="5">
       <log>lee choose Scissors.</log>
       <log>jlp choose Paper.</log>
       <log>jlp won the round!</log>
@@ -328,116 +363,51 @@
       </damage><death>
         <reference ref="lee-battleship-4" />
       </death><log>lee was knocked out of the battle.</log>
-    </round><round no="5">
-      <log>jlp choose Rock.</log>
-      <log>tim choose Paper.</log>
-      <log>tim won the round!</log>
+    </round><round number="6">
+      <log>tim choose Scissors.</log>
+      <log>jlp choose Paper.</log>
+      <log>jlp won the round!</log>
       <fire>
-        <source ref="tim-battleship-0" />
-        <destination ref="jlp-battleship-0" />
-      </fire><damage>
-        <reference ref="jlp-battleship-0" />
-        <amount>3</amount>
-      </damage><fire>
-        <source ref="tim-battleship-1" />
-        <destination ref="jlp-battleship-1" />
-      </fire><damage>
-        <reference ref="jlp-battleship-1" />
-        <amount>3</amount>
-      </damage><fire>
-        <source ref="tim-battleship-2" />
-        <destination ref="jlp-battleship-2" />
-      </fire><damage>
-        <reference ref="jlp-battleship-2" />
-        <amount>3</amount>
-      </damage><fire>
-        <source ref="tim-battleship-3" />
-        <destination ref="jlp-battleship-3" />
-      </fire><damage>
-        <reference ref="jlp-battleship-3" />
-        <amount>3</amount>
-      </damage><fire>
-        <source ref="tim-battleship-4" />
-        <destination ref="jlp-battleship-4" />
-      </fire><damage>
-        <reference ref="jlp-battleship-4" />
-        <amount>3</amount>
-      </damage>
-    </round><round no="6">
-      <log>tim choose Rock.</log>
-      <log>jlp choose Rock.</log>
-      <log>Round was a draw!</log>
-      <fire>
-        <source ref="tim-battleship-0" />
-        <destination ref="jlp-battleship-0" />
-      </fire><damage>
-        <reference ref="jlp-battleship-0" />
-        <amount>1</amount>
-      </damage><death>
-        <reference ref="jlp-battleship-0" />
-      </death><fire>
-        <source ref="tim-battleship-1" />
-        <destination ref="jlp-battleship-1" />
-      </fire><damage>
-        <reference ref="jlp-battleship-1" />
-        <amount>1</amount>
-      </damage><death>
-        <reference ref="jlp-battleship-1" />
-      </death><fire>
-        <source ref="tim-battleship-2" />
-        <destination ref="jlp-battleship-2" />
-      </fire><damage>
-        <reference ref="jlp-battleship-2" />
-        <amount>1</amount>
-      </damage><death>
-        <reference ref="jlp-battleship-2" />
-      </death><fire>
-        <source ref="tim-battleship-3" />
-        <destination ref="jlp-battleship-3" />
-      </fire><damage>
-        <reference ref="jlp-battleship-3" />
-        <amount>1</amount>
-      </damage><death>
-        <reference ref="jlp-battleship-3" />
-      </death><fire>
-        <source ref="tim-battleship-4" />
-        <destination ref="jlp-battleship-4" />
-      </fire><damage>
-        <reference ref="jlp-battleship-4" />
-        <amount>1</amount>
-      </damage><death>
-        <reference ref="jlp-battleship-4" />
-      </death><fire>
         <source ref="jlp-battleship-0" />
         <destination ref="tim-battleship-0" />
       </fire><damage>
         <reference ref="tim-battleship-0" />
-        <amount>1</amount>
-      </damage><fire>
+        <amount>3</amount>
+      </damage><death>
+        <reference ref="tim-battleship-0" />
+      </death><fire>
         <source ref="jlp-battleship-1" />
         <destination ref="tim-battleship-1" />
       </fire><damage>
         <reference ref="tim-battleship-1" />
-        <amount>1</amount>
-      </damage><fire>
+        <amount>3</amount>
+      </damage><death>
+        <reference ref="tim-battleship-1" />
+      </death><fire>
         <source ref="jlp-battleship-2" />
         <destination ref="tim-battleship-2" />
       </fire><damage>
         <reference ref="tim-battleship-2" />
-        <amount>1</amount>
-      </damage><fire>
+        <amount>3</amount>
+      </damage><death>
+        <reference ref="tim-battleship-2" />
+      </death><fire>
         <source ref="jlp-battleship-3" />
         <destination ref="tim-battleship-3" />
       </fire><damage>
         <reference ref="tim-battleship-3" />
-        <amount>1</amount>
-      </damage><fire>
+        <amount>3</amount>
+      </damage><death>
+        <reference ref="tim-battleship-3" />
+      </death><fire>
         <source ref="jlp-battleship-4" />
         <destination ref="tim-battleship-4" />
       </fire><damage>
         <reference ref="tim-battleship-4" />
-        <amount>1</amount>
-      </damage><log>jlp was knocked out of the battle.</log>
+        <amount>3</amount>
+      </damage><death>
+        <reference ref="tim-battleship-4" />
+      </death><log>tim was knocked out of the battle.</log>
     </round>
   </rounds>
 </battle>
