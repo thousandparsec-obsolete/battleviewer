@@ -6,7 +6,9 @@
 <!ELEMENT sides (side+) >
 <!ELEMENT side (entity+) >
 <!ATTLIST side id ID #REQUIRED >
+
 <!ELEMENT entity (name, type?, description?, note*) >
+<!ATTLIST entity id ID #REQUIRED >
 <!-- 
 <!ELEMENT model (#PCDATA) >
 <!ELEMENT deathmedia (#PCDATA) >
@@ -15,11 +17,10 @@
 <!ELEMENT weaponpoints (pixel+)>
 <!ELEMENT pixel (#PCDATA) >
 <!ELEMENT weapon (#PCDATA) >
-
 <!ELEMENT entity (name, model, deathmedia?, firing?, weaponpoints?, weapontype?, weapon?) > 
 -->
-<!ATTLIST entity id ID #REQUIRED >
 <!ELEMENT name (#PCDATA) >
+<!ELEMENT type (#PCDATA) >
 <!ELEMENT description (#PCDATA) >
 <!ELEMENT note (#PCDATA) >
 
