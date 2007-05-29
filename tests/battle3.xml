@@ -1,3 +1,5 @@
+<?xml version="1.0"?>
+<!DOCTYPE battle SYSTEM "battle.dtd">
 <battle media="minisec" version="0.0.1">
   <sides>
     <side id="tim">
