@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 
-import pygame, battleview, battlecontroller, battleparser
+import sys, pygame, battleview, battlecontroller, battleparser, xml_validator
 
 import actions, constants
 
 from ocempgui.object import BaseObject
 from ocempgui.events import EventManager
 
+battle_file = "./example1.xml"
+    
 def main ():
     # Initialize pygame
     pygame.display.init()
@@ -38,9 +40,15 @@ def main ():
     battle_view = battleview.BattleView(display_surface)
     battle_view.manager = event_manager
     
-    # Parse the battle XML
+    # Validate and Parse the battle XML
+    try:
+        xml_validator.validate_dtd(battle_file)
+    except xml_validator.ValidationError, e:
+        print battle_file, "Failed Validation:", repr(e)
+        sys.exit(1)
+    
     battle_parser = battleparser.Parser.CreateParser()
-    battle_parser.ParseFile(file("./example1.xml", "r"))
+    battle_parser.ParseFile(file(battle_file, "r"))
 
     battle = battle_parser.objects
     

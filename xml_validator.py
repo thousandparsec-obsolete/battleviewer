@@ -8,7 +8,6 @@ a critical error if PyXML is not installed on the users system.
 try:
     from xml.parsers.xmlproc import xmlval
     from xml.parsers.xmlproc import xmlproc
-    import kungfuXML
 except ImportError, e:
     print 'Not validating, Import Error:', e
     ValidationError = None
